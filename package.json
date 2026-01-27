@@ -1,0 +1,83 @@
+{
+  "name": "@napified/strip-json-comments",
+  "version": "1.0.0",
+  "description": "Native Rust drop-in replacement for strip-json-comments",
+  "type": "module",
+  "main": "index.cjs",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    }
+  },
+  "files": [
+    "index.d.ts",
+    "index.cjs",
+    "index.mjs",
+    "*.node"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napified/strip-json-comments.git"
+  },
+  "homepage": "https://github.com/napified/strip-json-comments",
+  "bugs": {
+    "url": "https://github.com/napified/strip-json-comments/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "json",
+    "comments",
+    "strip",
+    "native",
+    "rust",
+    "napi",
+    "performance",
+    "fast"
+  ],
+  "engines": {
+    "node": ">= 20.0.0"
+  },
+  "napi": {
+    "binaryName": "strip-json-comments",
+    "targets": [
+      "x86_64-pc-windows-msvc",
+      "x86_64-apple-darwin",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-apple-darwin"
+    ]
+  },
+  "scripts": {
+    "build": "napi build --platform --release --js index.cjs && napi build --platform --release --esm --js index.mjs",
+    "build:debug": "napi build --platform --js index.cjs && napi build --platform --esm --js index.mjs",
+    "test": "ava",
+    "lint": "oxlint .",
+    "bench": "node --import @oxc-node/core/register benchmark/bench.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.2.0",
+    "@oxc-node/core": "^0.0.35",
+    "ava": "^6.4.1",
+    "fast-check": "^4.5.3",
+    "oxlint": "^1.14.0",
+    "strip-json-comments": "^5.0.3",
+    "tinybench": "^6.0.0"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "timeout": "2m",
+    "workerThreads": false,
+    "nodeArguments": [
+      "--import",
+      "@oxc-node/core/register"
+    ]
+  }
+}

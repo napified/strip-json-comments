@@ -1,6 +1,6 @@
 {
   "name": "@napified/strip-json-comments",
-  "version": "1.0.0",
+  "version": "0.1.0-beta.1",
   "description": "Native Rust drop-in replacement for strip-json-comments",
   "type": "module",
   "main": "index.cjs",

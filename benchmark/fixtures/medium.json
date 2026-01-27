@@ -1,0 +1,58 @@
+{
+  // TypeScript Configuration
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"], // Standard library
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"], // Path mapping
+      "@components/*": ["./src/components/*"]
+    },
+    "resolveJsonModule": true,
+
+    /* Emit */
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": false /* Keep comments */,
+    "importHelpers": true,
+
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true, // Enable all strict checks
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true /* Skip library checks for speed */
+  },
+
+  /* File inclusion patterns */
+  "include": ["src/**/*", "types/**/*"],
+
+  // Exclusion patterns
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts" // Test files
+  ],
+
+  /*
+   * References for project organization
+   * Supports multi-project builds
+   */
+  "references": [{ "path": "./packages/core" }, { "path": "./packages/utils" }]
+}

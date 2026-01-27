@@ -1,0 +1,14 @@
+{
+  // Configuration file
+  "name": "my-app",
+  "version": "1.0.0", // semver
+  /* Development settings */
+  "dev": {
+    "port": 3000,
+    "hot": true // Hot reload enabled
+  },
+  "features": {
+    "logging": true, // Enable logging
+    "cache": false /* Disable cache in dev */
+  }
+}

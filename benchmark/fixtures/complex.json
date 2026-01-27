@@ -1,0 +1,3494 @@
+{
+  /*
+   * Complex Asymmetric JSON Fixture
+   * ================================
+   * This file contains deeply nested, asymmetric structures
+   * with varied schemas, null values, and mixed data types.
+   * Used for testing JSON comment stripping performance.
+   *
+   * Comment styles used in this file:
+   * 1. Single line with double-slash
+   * 2. Single line block comments
+   * 3. Multi-line block comments
+   */
+  // Section: Metadata - contains version and feature flags
+  "metadata": {
+    "version": "3.2.1" /* SemVer format */,
+    "generated": "2024-01-15T10:30:00Z", // ISO 8601 timestamp
+    "source": null, // Optional field - set by build system
+    /*
+     * Feature flags control experimental functionality.
+     * These can be toggled without redeployment.
+     */
+    "flags": {
+      "experimental": true, // Enable beta features
+      "deprecated": false /* Legacy mode disabled */,
+      "internal": null // Not yet configured
+    }
+  },
+  /*
+   * ===========================================
+   * USERS SECTION
+   * ===========================================
+   * Contains various user types:
+   * - Admin users (full access)
+   * - Regular users (limited access)
+   * - Service accounts (API access)
+   * - Guest users (temporary)
+   * - Partner accounts (external)
+   */
+  "users": [
+    {
+      // Admin user with full profile
+      /* This is the primary administrator account */
+      "id": "usr_001", // Unique identifier
+      "type": "admin" /* Full system access */,
+      "profile": {
+        "firstName": "Alice", // Given name
+        "lastName": "Johnson", // Family name
+        "email": "alice@example.com" /* Primary contact */,
+        "avatar": null, // Not uploaded yet - will be CDN URL
+        /*
+         * User preferences object
+         * Controls UI and notification settings
+         */
+        "preferences": {
+          "theme": "dark",
+          "notifications": {
+            "email": true,
+            "push": false,
+            "sms": null // Not configured
+          },
+          "accessibility": {
+            "highContrast": false,
+            "screenReader": null,
+            "fontSize": 14
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "123 Main St",
+            "city": "Springfield",
+            "state": "IL",
+            "zip": "62701",
+            "country": "US",
+            "verified": true
+          },
+          {
+            "type": "work",
+            "street": null, // Incomplete
+            "city": "Chicago",
+            "state": "IL",
+            "zip": null,
+            "country": "US",
+            "verified": false
+          }
+        ]
+      },
+      "permissions": ["read", "write", "delete", "admin"],
+      "lastLogin": "2024-01-14T08:22:15Z",
+      "sessions": []
+    },
+    {
+      // Regular user with minimal profile
+      "id": "usr_002",
+      "type": "user",
+      "profile": {
+        "firstName": "Bob",
+        "lastName": null, // Not provided
+        "email": "bob@example.com"
+        /* No preferences set */
+      },
+      "permissions": ["read"],
+      "lastLogin": null,
+      "sessions": null
+    },
+    {
+      // Service account - different schema
+      "id": "svc_001",
+      "type": "service",
+      "name": "api-gateway",
+      "apiKey": "sk_live_xxxxxxxxxxxx",
+      "rateLimit": {
+        "requests": 10000,
+        "window": "1h",
+        "burst": null
+      },
+      "scopes": ["api:read", "api:write"],
+      "createdAt": "2023-06-01T00:00:00Z"
+    },
+    {
+      // Regular user with complete profile
+      "id": "usr_003",
+      "type": "user",
+      "profile": {
+        "firstName": "Charlie",
+        "lastName": "Brown",
+        "email": "charlie@example.com",
+        "avatar": "https://cdn.example.com/avatars/usr_003.jpg",
+        "preferences": {
+          "theme": "light",
+          "notifications": {
+            "email": true,
+            "push": true,
+            "sms": false
+          },
+          "accessibility": {
+            "highContrast": true,
+            "screenReader": false,
+            "fontSize": 16
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "789 Elm Street",
+            "city": "Boston",
+            "state": "MA",
+            "zip": "02101",
+            "country": "US",
+            "verified": true
+          }
+        ]
+      },
+      "permissions": ["read", "write"],
+      "lastLogin": "2024-01-15T07:00:00Z",
+      "sessions": [{ "id": "sess_010", "device": "desktop", "ip": "10.0.0.25", "createdAt": "2024-01-15T07:00:00Z" }]
+    },
+    {
+      // Suspended user
+      "id": "usr_004",
+      "type": "user",
+      "status": "suspended",
+      "suspendedAt": "2024-01-10T15:00:00Z",
+      "suspendedReason": "Policy violation",
+      "profile": {
+        "firstName": "Diana",
+        "lastName": "Prince",
+        "email": "diana@example.com",
+        "avatar": null,
+        "preferences": null
+      },
+      "permissions": [],
+      "lastLogin": "2024-01-10T14:30:00Z",
+      "sessions": null
+    },
+    {
+      // Premium user with full subscription
+      "id": "usr_005",
+      "type": "premium",
+      "profile": {
+        "firstName": "Edward",
+        "lastName": "Norton",
+        "email": "edward@example.com",
+        "avatar": "https://cdn.example.com/avatars/usr_005.jpg",
+        "bio": "Software developer and tech enthusiast",
+        "website": "https://edward.dev",
+        "social": {
+          "twitter": "@edward_dev",
+          "github": "edward-norton",
+          "linkedin": null
+        },
+        "preferences": {
+          "theme": "auto",
+          "notifications": {
+            "email": true,
+            "push": true,
+            "sms": true
+          },
+          "accessibility": null,
+          "language": "en-US",
+          "timezone": "America/New_York"
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "456 Park Avenue",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10022",
+            "country": "US",
+            "verified": true
+          },
+          {
+            "type": "billing",
+            "street": "100 Business Center",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10001",
+            "country": "US",
+            "verified": true
+          }
+        ]
+      },
+      "subscription": {
+        "plan": "premium",
+        "status": "active",
+        "startDate": "2023-01-15",
+        "renewalDate": "2024-01-15",
+        "price": 99.99,
+        "currency": "USD",
+        "features": ["priority_support", "advanced_analytics", "api_access", "white_label"]
+      },
+      "permissions": ["read", "write", "export", "api"],
+      "lastLogin": "2024-01-15T06:00:00Z",
+      "sessions": [
+        { "id": "sess_020", "device": "desktop", "ip": "192.0.2.50", "createdAt": "2024-01-15T06:00:00Z" },
+        { "id": "sess_021", "device": "mobile", "ip": "192.0.2.51", "createdAt": "2024-01-14T20:00:00Z" }
+      ]
+    },
+    {
+      // Service account - webhook processor
+      "id": "svc_002",
+      "type": "service",
+      "name": "webhook-processor",
+      "apiKey": "sk_live_yyyyyyyyyyyy",
+      "rateLimit": {
+        "requests": 50000,
+        "window": "1h",
+        "burst": 100
+      },
+      "scopes": ["webhooks:read", "webhooks:write", "orders:read"],
+      "createdAt": "2023-09-15T00:00:00Z",
+      "lastUsed": "2024-01-15T12:25:00Z"
+    },
+    {
+      // Guest user (anonymous session)
+      "id": "guest_001",
+      "type": "guest",
+      "sessionId": "anon_abc123",
+      "cart": {
+        "items": [{ "sku": "PROD-001", "qty": 1, "addedAt": "2024-01-15T11:00:00Z" }],
+        "total": 199.99
+      },
+      "createdAt": "2024-01-15T10:55:00Z",
+      "expiresAt": "2024-01-16T10:55:00Z"
+    },
+    {
+      // Organization admin with team management
+      "id": "usr_006",
+      "type": "org_admin",
+      "organizationId": "org_001",
+      "profile": {
+        "firstName": "Frank",
+        "lastName": "Miller",
+        "email": "frank@acme.com",
+        "avatar": "https://cdn.example.com/avatars/usr_006.jpg",
+        "title": "CTO",
+        "department": "Engineering",
+        "preferences": {
+          "theme": "dark",
+          "notifications": {
+            "email": true,
+            "push": false,
+            "sms": null
+          },
+          "accessibility": null
+        },
+        "addresses": []
+      },
+      "permissions": ["read", "write", "delete", "admin", "billing", "team_management"],
+      "teamSize": 25,
+      "lastLogin": "2024-01-15T08:30:00Z",
+      "sessions": [{ "id": "sess_030", "device": "desktop", "ip": "172.16.0.10", "createdAt": "2024-01-15T08:30:00Z" }]
+    },
+    {
+      // API partner account
+      "id": "partner_001",
+      "type": "partner",
+      "companyName": "Integration Partners Inc",
+      "contactEmail": "api@partners.com",
+      "tier": "gold",
+      "apiKeys": [
+        {
+          "id": "key_001",
+          "name": "Production",
+          "prefix": "pk_live_",
+          "createdAt": "2023-06-01",
+          "lastUsed": "2024-01-15T12:00:00Z"
+        },
+        {
+          "id": "key_002",
+          "name": "Sandbox",
+          "prefix": "pk_test_",
+          "createdAt": "2023-06-01",
+          "lastUsed": "2024-01-10T15:00:00Z"
+        }
+      ],
+      "rateLimit": {
+        "requests": 100000,
+        "window": "1h",
+        "burst": 200
+      },
+      "scopes": ["products:read", "orders:read", "orders:write", "webhooks:manage"],
+      "webhookEndpoint": "https://partners.com/webhook",
+      "createdAt": "2023-06-01T00:00:00Z"
+    },
+    {
+      // Deleted user (soft delete)
+      "id": "usr_007",
+      "type": "user",
+      "status": "deleted",
+      "deletedAt": "2024-01-05T12:00:00Z",
+      "deletedBy": "usr_001",
+      "profile": {
+        "firstName": "[Deleted]",
+        "lastName": "[Deleted]",
+        "email": "deleted_usr_007@example.com", // Anonymized
+        "avatar": null
+      },
+      "permissions": [],
+      "lastLogin": null,
+      "sessions": null,
+      "retentionUntil": "2024-04-05T12:00:00Z" // GDPR retention
+    }
+  ],
+  "organizations": {
+    "org_001": {
+      "name": "Acme Corp",
+      "plan": "enterprise",
+      "billing": {
+        "status": "active",
+        "method": {
+          "type": "card",
+          "last4": "4242",
+          "expiry": "12/25",
+          "brand": "visa"
+        },
+        "invoices": [
+          { "id": "inv_001", "amount": 9900, "status": "paid", "date": "2024-01-01" },
+          { "id": "inv_002", "amount": 9900, "status": "pending", "date": "2024-02-01" }
+        ]
+      },
+      "settings": {
+        "sso": {
+          "enabled": true,
+          "provider": "okta",
+          "domains": ["acme.com", "acme.io"],
+          "config": {
+            "issuer": "https://acme.okta.com",
+            "clientId": "0oa123456789",
+            "clientSecret": null // Redacted
+          }
+        },
+        "security": {
+          "mfa": "required",
+          "sessionTimeout": 3600,
+          "ipWhitelist": null,
+          "auditLog": true
+        }
+      },
+      "members": ["usr_001", "usr_002"]
+    },
+    "org_002": {
+      // Minimal org - just created
+      "name": "Startup Inc",
+      "plan": "free",
+      "billing": null,
+      "settings": {},
+      "members": []
+    }
+  },
+  /*
+   * ===========================================
+   * PRODUCTS SECTION
+   * ===========================================
+   * Product catalog with:
+   * - Variable pricing tiers
+   * - Inventory tracking per warehouse
+   * - Product variants (size, color, etc.)
+   * - Bundle products
+   */
+  "products": {
+    // Main product catalog array
+    "catalog": [
+      {
+        /* Primary product - Widget Pro */
+        "sku": "PROD-001", // Stock Keeping Unit
+        "name": "Widget Pro" /* Display name */,
+        "description": "Professional grade widget for enterprise use", // Marketing copy
+        /*
+         * Pricing configuration
+         * Supports multiple discount types:
+         * - Volume discounts (quantity-based)
+         * - Promo codes (time-limited)
+         * - Bundle discounts (with other products)
+         */
+        "pricing": {
+          "base": 199.99, // Base price in cents
+          "currency": "USD" /* ISO 4217 code */,
+          "discounts": [
+            { "type": "volume", "threshold": 10, "percent": 10 }, // 10% off 10+
+            { "type": "volume", "threshold": 50, "percent": 20 } /* 20% off 50+ */,
+            { "type": "promo", "code": "SAVE15", "percent": 15, "expires": "2024-03-01" } // Limited time
+          ],
+          "tax": null // Calculated at checkout based on shipping address
+        },
+        "inventory": {
+          "available": 1500,
+          "reserved": 45,
+          "warehouses": {
+            "US-EAST": 800,
+            "US-WEST": 500,
+            "EU-CENTRAL": 200
+          }
+        },
+        "variants": [
+          {
+            "id": "var_001",
+            "color": "black",
+            "size": "M",
+            "sku": "PROD-001-BLK-M",
+            "additionalPrice": 0
+          },
+          {
+            "id": "var_002",
+            "color": "white",
+            "size": "L",
+            "sku": "PROD-001-WHT-L",
+            "additionalPrice": 10.0
+          }
+        ],
+        "metadata": {
+          "weight": 2.5,
+          "dimensions": { "l": 30, "w": 20, "h": 10 },
+          "materials": ["aluminum", "plastic"],
+          "certifications": ["CE", "FCC", "UL"]
+        }
+      },
+      {
+        "sku": "PROD-002",
+        "name": "Basic Widget",
+        "description": null, // Coming soon
+        "pricing": {
+          "base": 49.99,
+          "currency": "USD",
+          "discounts": [],
+          "tax": null
+        },
+        "inventory": null, // Pre-order only
+        "variants": [],
+        "metadata": {}
+      },
+      {
+        "sku": "PROD-003",
+        "name": "Widget Cable",
+        "description": "High-quality braided cable for Widget devices",
+        "pricing": {
+          "base": 29.99,
+          "currency": "USD",
+          "discounts": [{ "type": "bundle", "minQty": 3, "percent": 15 }],
+          "tax": null
+        },
+        "inventory": {
+          "available": 5000,
+          "reserved": 120,
+          "warehouses": {
+            "US-EAST": 2500,
+            "US-WEST": 1800,
+            "EU-CENTRAL": 700
+          }
+        },
+        "variants": [
+          { "id": "var_010", "length": "1m", "color": "black", "sku": "PROD-003-1M-BLK", "additionalPrice": 0 },
+          { "id": "var_011", "length": "2m", "color": "black", "sku": "PROD-003-2M-BLK", "additionalPrice": 5.0 },
+          { "id": "var_012", "length": "1m", "color": "white", "sku": "PROD-003-1M-WHT", "additionalPrice": 0 },
+          { "id": "var_013", "length": "2m", "color": "white", "sku": "PROD-003-2M-WHT", "additionalPrice": 5.0 }
+        ],
+        "metadata": {
+          "weight": 0.15,
+          "dimensions": { "l": 20, "w": 5, "h": 2 },
+          "materials": ["nylon", "copper"],
+          "certifications": ["CE", "RoHS"]
+        }
+      },
+      {
+        "sku": "PROD-004",
+        "name": "Widget Stand",
+        "description": "Adjustable aluminum stand for Widget Pro",
+        "pricing": {
+          "base": 39.99,
+          "currency": "USD",
+          "discounts": [],
+          "tax": null
+        },
+        "inventory": {
+          "available": 800,
+          "reserved": 25,
+          "warehouses": {
+            "US-EAST": 400,
+            "US-WEST": 300,
+            "EU-CENTRAL": 100
+          }
+        },
+        "variants": [
+          { "id": "var_020", "finish": "silver", "sku": "PROD-004-SLV", "additionalPrice": 0 },
+          { "id": "var_021", "finish": "space_gray", "sku": "PROD-004-GRY", "additionalPrice": 5.0 },
+          { "id": "var_022", "finish": "gold", "sku": "PROD-004-GLD", "additionalPrice": 10.0 }
+        ],
+        "metadata": {
+          "weight": 1.2,
+          "dimensions": { "l": 25, "w": 15, "h": 20 },
+          "materials": ["aluminum", "silicone"],
+          "certifications": ["CE"]
+        }
+      },
+      {
+        "sku": "PROD-005",
+        "name": "Widget Case",
+        "description": "Premium protective case with shock absorption",
+        "pricing": {
+          "base": 24.99,
+          "currency": "USD",
+          "discounts": [{ "type": "promo", "code": "CASE10", "percent": 10, "expires": "2024-02-28" }],
+          "tax": null
+        },
+        "inventory": {
+          "available": 3500,
+          "reserved": 80,
+          "warehouses": {
+            "US-EAST": 1500,
+            "US-WEST": 1200,
+            "EU-CENTRAL": 800
+          }
+        },
+        "variants": [
+          {
+            "id": "var_030",
+            "color": "black",
+            "material": "silicone",
+            "sku": "PROD-005-BLK-SIL",
+            "additionalPrice": 0
+          },
+          {
+            "id": "var_031",
+            "color": "clear",
+            "material": "polycarbonate",
+            "sku": "PROD-005-CLR-PC",
+            "additionalPrice": 5.0
+          },
+          {
+            "id": "var_032",
+            "color": "navy",
+            "material": "leather",
+            "sku": "PROD-005-NVY-LTH",
+            "additionalPrice": 15.0
+          }
+        ],
+        "metadata": {
+          "weight": 0.08,
+          "dimensions": { "l": 16, "w": 8, "h": 1 },
+          "materials": ["various"],
+          "certifications": null
+        }
+      },
+      {
+        "sku": "PROD-006",
+        "name": "Widget Charger",
+        "description": "Fast wireless charger with LED indicator",
+        "pricing": {
+          "base": 44.99,
+          "currency": "USD",
+          "discounts": [],
+          "tax": null
+        },
+        "inventory": {
+          "available": 2200,
+          "reserved": 50,
+          "warehouses": {
+            "US-EAST": 1000,
+            "US-WEST": 800,
+            "EU-CENTRAL": 400
+          }
+        },
+        "variants": [
+          { "id": "var_040", "wattage": "15W", "color": "black", "sku": "PROD-006-15W-BLK", "additionalPrice": 0 },
+          { "id": "var_041", "wattage": "15W", "color": "white", "sku": "PROD-006-15W-WHT", "additionalPrice": 0 },
+          { "id": "var_042", "wattage": "25W", "color": "black", "sku": "PROD-006-25W-BLK", "additionalPrice": 10.0 }
+        ],
+        "metadata": {
+          "weight": 0.25,
+          "dimensions": { "l": 10, "w": 10, "h": 2 },
+          "materials": ["plastic", "copper"],
+          "certifications": ["CE", "FCC", "Qi"]
+        }
+      },
+      {
+        "sku": "PROD-007",
+        "name": "Widget Screen Protector",
+        "description": "Tempered glass screen protector, 9H hardness",
+        "pricing": {
+          "base": 14.99,
+          "currency": "USD",
+          "discounts": [{ "type": "bundle", "minQty": 2, "percent": 20 }],
+          "tax": null
+        },
+        "inventory": {
+          "available": 8000,
+          "reserved": 200,
+          "warehouses": {
+            "US-EAST": 4000,
+            "US-WEST": 2500,
+            "EU-CENTRAL": 1500
+          }
+        },
+        "variants": [
+          { "id": "var_050", "finish": "clear", "sku": "PROD-007-CLR", "additionalPrice": 0 },
+          { "id": "var_051", "finish": "matte", "sku": "PROD-007-MAT", "additionalPrice": 2.0 },
+          { "id": "var_052", "finish": "privacy", "sku": "PROD-007-PRV", "additionalPrice": 5.0 }
+        ],
+        "metadata": {
+          "weight": 0.02,
+          "dimensions": { "l": 15, "w": 7, "h": 0.1 },
+          "materials": ["tempered_glass"],
+          "certifications": null
+        }
+      },
+      {
+        "sku": "PROD-008",
+        "name": "Widget Bundle Pack",
+        "description": "Complete starter kit: Widget Pro + Case + Charger",
+        "pricing": {
+          "base": 249.99,
+          "currency": "USD",
+          "discounts": [],
+          "tax": null,
+          "savings": 44.96 // vs buying separately
+        },
+        "inventory": {
+          "available": 500,
+          "reserved": 15,
+          "warehouses": {
+            "US-EAST": 250,
+            "US-WEST": 200,
+            "EU-CENTRAL": 50
+          }
+        },
+        "variants": [],
+        "bundleContents": [
+          { "sku": "PROD-001", "qty": 1 },
+          { "sku": "PROD-005", "qty": 1 },
+          { "sku": "PROD-006", "qty": 1 }
+        ],
+        "metadata": {
+          "weight": 3.0,
+          "dimensions": { "l": 35, "w": 25, "h": 15 },
+          "giftWrappable": true
+        }
+      }
+    ],
+    "categories": {
+      "widgets": {
+        "id": "cat_001",
+        "name": "Widgets",
+        "parent": null,
+        "children": ["cat_002", "cat_003"],
+        "products": ["PROD-001", "PROD-002"]
+      },
+      "accessories": {
+        "id": "cat_002",
+        "name": "Widget Accessories",
+        "parent": "cat_001",
+        "children": [],
+        "products": []
+      },
+      "parts": {
+        "id": "cat_003",
+        "name": "Replacement Parts",
+        "parent": "cat_001",
+        "children": ["cat_004"],
+        "products": []
+      },
+      "screws": {
+        "id": "cat_004",
+        "name": "Screws & Bolts",
+        "parent": "cat_003",
+        "children": [],
+        "products": []
+      }
+    }
+  },
+  /*
+   * ===========================================
+   * ANALYTICS SECTION
+   * ===========================================
+   * Comprehensive analytics data including:
+   * - Traffic metrics and summaries
+   * - Event tracking (purchases, signups)
+   * - Conversion funnels
+   * - Cohort analysis
+   * - A/B test results
+   * - User segments
+   *
+   * Note: Some metrics may be null if insufficient data
+   */
+  "analytics": {
+    // Summary metrics for the current period
+    "summary": {
+      "period": "2024-01" /* YYYY-MM format */,
+      /*
+       * Key performance indicators
+       * Updated hourly via ETL pipeline
+       */
+      "metrics": {
+        "pageViews": 1250000, // Total page views
+        "uniqueVisitors": 450000 /* Deduplicated by cookie/fingerprint */,
+        "bounceRate": 0.42, // Single page sessions / total sessions
+        "avgSessionDuration": 185.5 /* In seconds */,
+        "conversionRate": null // Not enough data - needs 1000+ conversions
+      }
+    },
+    "events": [
+      {
+        "type": "purchase",
+        "count": 3500,
+        "revenue": 524999.5,
+        "breakdown": {
+          "byChannel": {
+            "direct": 1200,
+            "organic": 800,
+            "paid": 1000,
+            "referral": 500
+          },
+          "byDevice": {
+            "desktop": 2100,
+            "mobile": 1200,
+            "tablet": 200
+          },
+          "byRegion": {
+            "NA": { "count": 2000, "revenue": 299999.0 },
+            "EU": { "count": 1000, "revenue": 150000.0 },
+            "APAC": { "count": 500, "revenue": 75000.5 }
+          }
+        }
+      },
+      {
+        "type": "signup",
+        "count": 15000,
+        "revenue": null,
+        "breakdown": null // Not tracked
+      },
+      {
+        "type": "pageview",
+        "count": 1250000,
+        "revenue": null,
+        "breakdown": {
+          "byPage": {
+            "/": 400000,
+            "/products": 300000,
+            "/about": 50000,
+            "/contact": 25000,
+            "/other": 475000
+          }
+        }
+      }
+    ],
+    "funnels": [
+      {
+        "name": "Purchase Funnel",
+        "steps": [
+          { "name": "View Product", "count": 100000, "rate": 1.0 },
+          { "name": "Add to Cart", "count": 25000, "rate": 0.25 },
+          { "name": "Begin Checkout", "count": 10000, "rate": 0.1 },
+          { "name": "Complete Purchase", "count": 3500, "rate": 0.035 }
+        ]
+      },
+      {
+        "name": "User Onboarding",
+        "steps": [
+          { "name": "Visit Landing Page", "count": 50000, "rate": 1.0 },
+          { "name": "Click Sign Up", "count": 12500, "rate": 0.25 },
+          { "name": "Complete Registration", "count": 8000, "rate": 0.16 },
+          { "name": "Verify Email", "count": 6500, "rate": 0.13 },
+          { "name": "Complete Profile", "count": 4000, "rate": 0.08 },
+          { "name": "First Purchase", "count": 1500, "rate": 0.03 }
+        ]
+      },
+      {
+        "name": "Support Resolution",
+        "steps": [
+          { "name": "View Help Center", "count": 20000, "rate": 1.0 },
+          { "name": "Search FAQs", "count": 15000, "rate": 0.75 },
+          { "name": "Open Ticket", "count": 3000, "rate": 0.15 },
+          { "name": "Issue Resolved", "count": 2800, "rate": 0.14 }
+        ]
+      }
+    ],
+    "cohorts": {
+      /* User cohort analysis - retention and behavior */
+      "weekly": [
+        {
+          "cohort": "2024-W01",
+          "acquired": 1500,
+          "retention": {
+            "week1": 0.65,
+            "week2": 0.42,
+            "week3": null,
+            "week4": null
+          },
+          "revenue": {
+            "week1": 15000.0,
+            "week2": 8500.0,
+            "week3": null,
+            "week4": null
+          }
+        },
+        {
+          "cohort": "2024-W02",
+          "acquired": 1800,
+          "retention": {
+            "week1": 0.68,
+            "week2": null,
+            "week3": null,
+            "week4": null
+          },
+          "revenue": {
+            "week1": 19000.0,
+            "week2": null,
+            "week3": null,
+            "week4": null
+          }
+        },
+        {
+          "cohort": "2023-W52",
+          "acquired": 1200,
+          "retention": {
+            "week1": 0.6,
+            "week2": 0.38,
+            "week3": 0.25,
+            "week4": 0.18
+          },
+          "revenue": {
+            "week1": 12000.0,
+            "week2": 6800.0,
+            "week3": 4500.0,
+            "week4": 3200.0
+          }
+        }
+      ],
+      "monthly": [
+        {
+          "cohort": "2023-12",
+          "acquired": 5500,
+          "retention": {
+            "month1": 0.55,
+            "month2": null,
+            "month3": null
+          },
+          "ltv": 85.5
+        },
+        {
+          "cohort": "2023-11",
+          "acquired": 4800,
+          "retention": {
+            "month1": 0.52,
+            "month2": 0.35,
+            "month3": null
+          },
+          "ltv": 92.3
+        },
+        {
+          "cohort": "2023-10",
+          "acquired": 5200,
+          "retention": {
+            "month1": 0.58,
+            "month2": 0.38,
+            "month3": 0.25
+          },
+          "ltv": 115.0
+        }
+      ]
+    },
+    "realtime": {
+      /* Current real-time analytics snapshot */
+      "activeUsers": 1250,
+      "activeByPage": {
+        "/": 350,
+        "/products": 280,
+        "/products/PROD-001": 85,
+        "/cart": 120,
+        "/checkout": 45,
+        "/account": 95,
+        "/search": 150,
+        "/other": 125
+      },
+      "activeByCountry": {
+        "US": 650,
+        "GB": 180,
+        "DE": 120,
+        "CA": 95,
+        "AU": 75,
+        "other": 130
+      },
+      "eventsPerMinute": {
+        "pageviews": 2500,
+        "clicks": 1800,
+        "addToCart": 150,
+        "purchases": 25,
+        "searches": 320
+      },
+      "serverLoad": {
+        "requests": 5200,
+        "avgResponseTime": 45,
+        "errors": 3,
+        "cacheHitRate": 0.92
+      },
+      "lastUpdated": "2024-01-15T12:30:00Z"
+    },
+    "abTests": [
+      {
+        "id": "ab_001",
+        "name": "New Product Page Layout",
+        "status": "running",
+        "startDate": "2024-01-01",
+        "endDate": null,
+        "traffic": 0.5,
+        "variants": {
+          "control": {
+            "name": "Original Layout",
+            "traffic": 0.5,
+            "visitors": 25000,
+            "conversions": 875,
+            "conversionRate": 0.035,
+            "revenue": 87500.0
+          },
+          "variant_a": {
+            "name": "New Grid Layout",
+            "traffic": 0.5,
+            "visitors": 25000,
+            "conversions": 1000,
+            "conversionRate": 0.04,
+            "revenue": 100000.0
+          }
+        },
+        "significance": 0.92,
+        "recommendation": null // Not yet significant
+      },
+      {
+        "id": "ab_002",
+        "name": "Checkout Button Color",
+        "status": "completed",
+        "startDate": "2023-12-01",
+        "endDate": "2023-12-31",
+        "traffic": 1.0,
+        "variants": {
+          "control": {
+            "name": "Blue Button",
+            "traffic": 0.5,
+            "visitors": 50000,
+            "conversions": 2500,
+            "conversionRate": 0.05,
+            "revenue": 250000.0
+          },
+          "variant_a": {
+            "name": "Green Button",
+            "traffic": 0.5,
+            "visitors": 50000,
+            "conversions": 2750,
+            "conversionRate": 0.055,
+            "revenue": 275000.0
+          }
+        },
+        "significance": 0.98,
+        "recommendation": "variant_a",
+        "implemented": true
+      },
+      {
+        "id": "ab_003",
+        "name": "Free Shipping Threshold",
+        "status": "paused",
+        "startDate": "2024-01-10",
+        "endDate": null,
+        "traffic": 0.25,
+        "variants": {
+          "control": {
+            "name": "$50 threshold",
+            "traffic": 0.5,
+            "visitors": 5000,
+            "conversions": 200,
+            "conversionRate": 0.04,
+            "revenue": 15000.0
+          },
+          "variant_a": {
+            "name": "$35 threshold",
+            "traffic": 0.5,
+            "visitors": 5000,
+            "conversions": 225,
+            "conversionRate": 0.045,
+            "revenue": 14500.0
+          }
+        },
+        "significance": 0.65,
+        "recommendation": null,
+        "pausedReason": "Need more data"
+      }
+    ],
+    "reports": {
+      /* Scheduled and on-demand reports */
+      "scheduled": [
+        {
+          "id": "rpt_001",
+          "name": "Weekly Executive Summary",
+          "schedule": "0 8 * * 1", // Every Monday at 8am
+          "recipients": ["ceo@example.com", "cfo@example.com"],
+          "format": "pdf",
+          "sections": ["revenue", "users", "orders", "funnel"],
+          "lastGenerated": "2024-01-08T08:00:00Z",
+          "nextGeneration": "2024-01-15T08:00:00Z"
+        },
+        {
+          "id": "rpt_002",
+          "name": "Daily Sales Report",
+          "schedule": "0 6 * * *", // Every day at 6am
+          "recipients": ["sales@example.com"],
+          "format": "xlsx",
+          "sections": ["orders", "revenue", "products"],
+          "lastGenerated": "2024-01-15T06:00:00Z",
+          "nextGeneration": "2024-01-16T06:00:00Z"
+        },
+        {
+          "id": "rpt_003",
+          "name": "Monthly Analytics Deep Dive",
+          "schedule": "0 9 1 * *", // 1st of each month at 9am
+          "recipients": ["analytics@example.com", "marketing@example.com"],
+          "format": "pdf",
+          "sections": ["traffic", "acquisition", "behavior", "conversions", "cohorts"],
+          "lastGenerated": "2024-01-01T09:00:00Z",
+          "nextGeneration": "2024-02-01T09:00:00Z"
+        }
+      ],
+      "recent": [
+        {
+          "id": "rpt_gen_001",
+          "reportId": "rpt_001",
+          "generatedAt": "2024-01-08T08:00:00Z",
+          "size": 2500000,
+          "status": "delivered"
+        },
+        {
+          "id": "rpt_gen_002",
+          "reportId": "rpt_002",
+          "generatedAt": "2024-01-15T06:00:00Z",
+          "size": 850000,
+          "status": "delivered"
+        },
+        {
+          "id": "rpt_gen_003",
+          "reportId": "rpt_002",
+          "generatedAt": "2024-01-14T06:00:00Z",
+          "size": 820000,
+          "status": "delivered"
+        }
+      ]
+    },
+    "goals": {
+      /* Business goals and progress tracking */
+      "quarterly": [
+        {
+          "id": "goal_001",
+          "name": "Q1 Revenue Target",
+          "metric": "revenue",
+          "target": 1000000,
+          "current": 250000,
+          "progress": 0.25,
+          "startDate": "2024-01-01",
+          "endDate": "2024-03-31",
+          "status": "on_track"
+        },
+        {
+          "id": "goal_002",
+          "name": "Q1 New User Acquisition",
+          "metric": "new_users",
+          "target": 20000,
+          "current": 5500,
+          "progress": 0.275,
+          "startDate": "2024-01-01",
+          "endDate": "2024-03-31",
+          "status": "on_track"
+        },
+        {
+          "id": "goal_003",
+          "name": "Q1 Customer Retention",
+          "metric": "retention_rate",
+          "target": 0.85,
+          "current": 0.82,
+          "progress": 0.965,
+          "startDate": "2024-01-01",
+          "endDate": "2024-03-31",
+          "status": "at_risk"
+        }
+      ],
+      "monthly": [
+        {
+          "id": "goal_004",
+          "name": "January Revenue",
+          "metric": "revenue",
+          "target": 300000,
+          "current": 250000,
+          "progress": 0.833,
+          "startDate": "2024-01-01",
+          "endDate": "2024-01-31",
+          "status": "on_track"
+        }
+      ]
+    },
+    "segments": {
+      /* User segments for targeting and analysis */
+      "defined": [
+        {
+          "id": "seg_001",
+          "name": "High Value Customers",
+          "description": "Customers with LTV > $500",
+          "criteria": {
+            "ltv": { "operator": "gt", "value": 500 }
+          },
+          "size": 2500,
+          "lastUpdated": "2024-01-15T00:00:00Z"
+        },
+        {
+          "id": "seg_002",
+          "name": "Churned Users",
+          "description": "Users inactive for 30+ days",
+          "criteria": {
+            "lastActivity": { "operator": "lt", "value": "-30d" },
+            "status": { "operator": "eq", "value": "active" }
+          },
+          "size": 8500,
+          "lastUpdated": "2024-01-15T00:00:00Z"
+        },
+        {
+          "id": "seg_003",
+          "name": "Cart Abandoners",
+          "description": "Users with items in cart for 7+ days",
+          "criteria": {
+            "cartAge": { "operator": "gt", "value": "7d" },
+            "cartValue": { "operator": "gt", "value": 0 }
+          },
+          "size": 3200,
+          "lastUpdated": "2024-01-15T00:00:00Z"
+        },
+        {
+          "id": "seg_004",
+          "name": "Mobile Power Users",
+          "description": "Active mobile users with 10+ sessions/month",
+          "criteria": {
+            "device": { "operator": "eq", "value": "mobile" },
+            "sessions": { "operator": "gt", "value": 10 }
+          },
+          "size": 12000,
+          "lastUpdated": "2024-01-15T00:00:00Z"
+        },
+        {
+          "id": "seg_005",
+          "name": "Enterprise Customers",
+          "description": "Users from enterprise plan organizations",
+          "criteria": {
+            "organization.plan": { "operator": "eq", "value": "enterprise" }
+          },
+          "size": 450,
+          "lastUpdated": "2024-01-15T00:00:00Z"
+        }
+      ],
+      "autoGenerated": [
+        {
+          "id": "auto_seg_001",
+          "name": "Likely to Convert",
+          "description": "ML-predicted high conversion probability",
+          "algorithm": "conversion_propensity_v2",
+          "size": 5800,
+          "accuracy": 0.78,
+          "lastUpdated": "2024-01-15T04:00:00Z"
+        },
+        {
+          "id": "auto_seg_002",
+          "name": "Churn Risk",
+          "description": "ML-predicted churn in next 30 days",
+          "algorithm": "churn_prediction_v3",
+          "size": 2100,
+          "accuracy": 0.85,
+          "lastUpdated": "2024-01-15T04:00:00Z"
+        }
+      ]
+    }
+  },
+  /*
+   * ===========================================
+   * INFRASTRUCTURE SECTION
+   * ===========================================
+   * Multi-region deployment status including:
+   * - Service health checks
+   * - Resource utilization
+   * - Error rates and alerts
+   * - Deployment history
+   *
+   * Status values: healthy, degraded, unhealthy
+   */
+  "infrastructure": {
+    // Regional deployment configuration
+    "regions": {
+      /*
+       * US East Region (Primary)
+       * Located in Virginia, USA
+       * Handles majority of North American traffic
+       */
+      "us-east-1": {
+        "status": "healthy", // Overall region health
+        "services": {
+          // API Gateway service
+          "api": {
+            "status": "running" /* Container orchestration status */,
+            "instances": 12, // Number of running containers
+            "cpu": 45.2 /* Average CPU utilization % */,
+            "memory": 68.5, // Average memory utilization %
+            /*
+             * Error counts for the last hour
+             * Monitored by alerting system
+             */
+            "errors": {
+              "5xx": 12, // Server errors - investigate if > 100
+              "4xx": 1580 /* Client errors - usually OK */,
+              "timeout": 3 // Gateway timeouts
+            }
+          },
+          "database": {
+            "status": "running",
+            "type": "postgres",
+            "version": "15.2",
+            "replicas": 3,
+            "connections": {
+              "active": 245,
+              "idle": 55,
+              "max": 500
+            },
+            "replication": {
+              "lag": 0.5,
+              "status": "streaming"
+            }
+          },
+          "cache": {
+            "status": "running",
+            "type": "redis",
+            "memory": { "used": 2.5, "max": 8.0, "unit": "GB" },
+            "hitRate": 0.95,
+            "keys": 1500000
+          },
+          "queue": {
+            "status": "running",
+            "pending": 150,
+            "processing": 25,
+            "failed": 3,
+            "dlq": null // Not configured
+          }
+        },
+        "alerts": []
+      },
+      "eu-west-1": {
+        "status": "degraded",
+        "services": {
+          "api": {
+            "status": "running",
+            "instances": 8,
+            "cpu": 78.5,
+            "memory": 85.2,
+            "errors": {
+              "5xx": 150,
+              "4xx": 2100,
+              "timeout": 45
+            }
+          },
+          "database": {
+            "status": "warning",
+            "type": "postgres",
+            "version": "15.2",
+            "replicas": 2,
+            "connections": {
+              "active": 480,
+              "idle": 15,
+              "max": 500
+            },
+            "replication": {
+              "lag": 15.2,
+              "status": "catching_up"
+            }
+          },
+          "cache": null, // Not deployed
+          "queue": null
+        },
+        "alerts": [
+          {
+            "id": "alert_001",
+            "severity": "warning",
+            "message": "High database connection usage",
+            "timestamp": "2024-01-15T10:15:00Z",
+            "acknowledged": false
+          },
+          {
+            "id": "alert_002",
+            "severity": "critical",
+            "message": "Replication lag exceeds threshold",
+            "timestamp": "2024-01-15T10:20:00Z",
+            "acknowledged": true,
+            "acknowledgedBy": "usr_001"
+          }
+        ]
+      },
+      "ap-southeast-1": {
+        "status": "healthy",
+        "services": {
+          "api": {
+            "status": "running",
+            "instances": 4,
+            "cpu": 32.1,
+            "memory": 45.8,
+            "errors": { "5xx": 0, "4xx": 250, "timeout": 0 }
+          },
+          "database": {
+            "status": "running",
+            "type": "postgres",
+            "version": "15.2",
+            "replicas": 1,
+            "connections": { "active": 85, "idle": 15, "max": 200 },
+            "replication": { "lag": 0.1, "status": "streaming" }
+          },
+          "cache": {
+            "status": "running",
+            "type": "redis",
+            "memory": { "used": 0.8, "max": 2.0, "unit": "GB" },
+            "hitRate": 0.92,
+            "keys": 250000
+          },
+          "queue": null
+        },
+        "alerts": []
+      }
+    },
+    "deployments": [
+      {
+        "id": "deploy_001",
+        "version": "v2.15.3",
+        "status": "completed",
+        "startedAt": "2024-01-14T22:00:00Z",
+        "completedAt": "2024-01-14T22:15:00Z",
+        "regions": ["us-east-1", "eu-west-1", "ap-southeast-1"],
+        "changelog": [
+          "Fix: Memory leak in session handler",
+          "Feature: New analytics dashboard",
+          "Improvement: Database query optimization"
+        ],
+        "rollback": null
+      },
+      {
+        "id": "deploy_002",
+        "version": "v2.15.2",
+        "status": "rolled_back",
+        "startedAt": "2024-01-13T18:00:00Z",
+        "completedAt": null,
+        "regions": ["us-east-1"],
+        "changelog": ["Feature: Experimental caching layer"],
+        "rollback": {
+          "reason": "High error rate detected",
+          "timestamp": "2024-01-13T18:30:00Z",
+          "initiatedBy": "system"
+        }
+      }
+    ]
+  },
+  /*
+   * ===========================================
+   * WORKFLOWS SECTION
+   * ===========================================
+   * Business process automation definitions:
+   * - Order processing workflows
+   * - User onboarding sequences
+   * - Notification triggers
+   * - Service orchestration
+   */
+  "workflows": [
+    {
+      // Primary order workflow - handles all new orders
+      "id": "wf_001",
+      "name": "Order Processing" /* Most critical workflow */,
+      "status": "active",
+      "version": 5,
+      "steps": [
+        {
+          "id": "step_001",
+          "name": "Validate Order",
+          "type": "validation",
+          "config": {
+            "rules": [
+              { "field": "items", "check": "notEmpty" },
+              { "field": "total", "check": "positive" },
+              { "field": "customer.email", "check": "email" }
+            ],
+            "onFailure": "reject"
+          },
+          "next": "step_002",
+          "timeout": null
+        },
+        {
+          "id": "step_002",
+          "name": "Check Inventory",
+          "type": "service_call",
+          "config": {
+            "service": "inventory-service",
+            "method": "checkAvailability",
+            "retry": { "attempts": 3, "backoff": "exponential" }
+          },
+          "next": { "success": "step_003", "failure": "step_005" },
+          "timeout": 30
+        },
+        {
+          "id": "step_003",
+          "name": "Process Payment",
+          "type": "service_call",
+          "config": {
+            "service": "payment-service",
+            "method": "charge",
+            "retry": { "attempts": 2, "backoff": "linear" }
+          },
+          "next": { "success": "step_004", "failure": "step_006" },
+          "timeout": 60
+        },
+        {
+          "id": "step_004",
+          "name": "Send Confirmation",
+          "type": "notification",
+          "config": {
+            "channels": ["email", "push"],
+            "template": "order_confirmation",
+            "async": true
+          },
+          "next": null,
+          "timeout": null
+        },
+        {
+          "id": "step_005",
+          "name": "Notify Out of Stock",
+          "type": "notification",
+          "config": {
+            "channels": ["email"],
+            "template": "out_of_stock",
+            "async": true
+          },
+          "next": null,
+          "timeout": null
+        },
+        {
+          "id": "step_006",
+          "name": "Payment Failed Handler",
+          "type": "notification",
+          "config": {
+            "channels": ["email"],
+            "template": "payment_failed",
+            "async": true
+          },
+          "next": null,
+          "timeout": null
+        }
+      ],
+      "triggers": [
+        { "type": "api", "endpoint": "/orders", "method": "POST" },
+        { "type": "queue", "name": "orders.new" }
+      ],
+      "metrics": {
+        "executions": 15000,
+        "avgDuration": 2.5,
+        "successRate": 0.95,
+        "failureBreakdown": {
+          "validation": 200,
+          "inventory": 500,
+          "payment": 50
+        }
+      }
+    },
+    {
+      "id": "wf_002",
+      "name": "User Onboarding",
+      "status": "draft",
+      "version": 1,
+      "steps": [],
+      "triggers": [],
+      "metrics": null // Not deployed
+    }
+  ],
+  /*
+   * ===========================================
+   * INTEGRATIONS SECTION
+   * ===========================================
+   * Third-party service connections and configs
+   * Includes: payments, CRM, email, analytics
+   */
+  "integrations": {
+    // Currently active integrations
+    "enabled": [
+      {
+        "id": "int_001" /* Primary payment provider */,
+        "name": "Stripe",
+        "type": "payment",
+        "status": "connected",
+        "config": {
+          "mode": "live",
+          "webhooks": ["payment_intent.succeeded", "charge.failed"],
+          "apiVersion": "2023-10-16"
+        },
+        "credentials": {
+          "publicKey": "pk_live_xxxxxxxxxxxx",
+          "secretKey": null, // Hidden
+          "webhookSecret": null
+        },
+        "lastSync": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": "int_002",
+        "name": "Mailchimp",
+        "type": "email",
+        "status": "connected",
+        "config": {
+          "listId": "abc123",
+          "tags": ["customer", "newsletter"],
+          "doubleOptIn": true
+        },
+        "credentials": {
+          "apiKey": null // Hidden
+        },
+        "lastSync": "2024-01-14T23:00:00Z"
+      },
+      {
+        "id": "int_003",
+        "name": "Salesforce",
+        "type": "crm",
+        "status": "error",
+        "config": {
+          "instance": "na1",
+          "objects": ["Contact", "Lead", "Opportunity"]
+        },
+        "credentials": {
+          "accessToken": null,
+          "refreshToken": null
+        },
+        "lastSync": null,
+        "error": {
+          "code": "INVALID_TOKEN",
+          "message": "OAuth token has expired",
+          "timestamp": "2024-01-15T08:00:00Z"
+        }
+      }
+    ],
+    "available": [
+      { "id": "int_avail_001", "name": "HubSpot", "type": "crm", "status": "not_connected" },
+      { "id": "int_avail_002", "name": "Zendesk", "type": "support", "status": "not_connected" },
+      { "id": "int_avail_003", "name": "Slack", "type": "communication", "status": "not_connected" }
+    ]
+  },
+  /*
+   * ===========================================
+   * FEATURE FLAGS SECTION
+   * ===========================================
+   * Controls experimental and rollout features
+   * Supports: percentage rollout, user targeting, A/B variants
+   */
+  "featureFlags": {
+    // Global flags apply to all users
+    "global": {
+      /* Dashboard redesign - fully rolled out */
+      "newDashboard": {
+        "enabled": true,
+        "rollout": 100,
+        "description": "New analytics dashboard UI"
+      },
+      "betaFeatures": {
+        "enabled": false,
+        "rollout": 0,
+        "description": null
+      },
+      "aiAssistant": {
+        "enabled": true,
+        "rollout": 25,
+        "description": "AI-powered customer support",
+        "targeting": {
+          "users": ["usr_001"],
+          "orgs": ["org_001"],
+          "percentage": 25
+        }
+      }
+    },
+    "experiments": [
+      {
+        "id": "exp_001",
+        "name": "Checkout Flow v2",
+        "status": "running",
+        "variants": [
+          { "id": "control", "weight": 50, "config": {} },
+          { "id": "variant_a", "weight": 25, "config": { "showUpsell": true } },
+          { "id": "variant_b", "weight": 25, "config": { "showUpsell": true, "skipReview": true } }
+        ],
+        "metrics": ["conversion_rate", "avg_order_value"],
+        "results": null // Still collecting data
+      }
+    ]
+  },
+  /*
+   * ===========================================
+   * LOCALIZATION SECTION
+   * ===========================================
+   * Multi-language support configuration
+   *
+   * Supported locales:
+   * - en-US (default)
+   * - en-GB, es-ES, fr-FR, de-DE, ja-JP, pt-BR
+   * - zh-CN, ko-KR (pending)
+   */
+  "localization": {
+    "defaultLocale": "en-US", // Fallback locale
+    /* All supported locale codes */
+    "supportedLocales": ["en-US", "en-GB", "es-ES", "fr-FR", "de-DE", "ja-JP"],
+    /*
+     * Translation strings organized by:
+     * - common: Shared UI elements
+     * - auth: Authentication flows
+     * - errors: Error messages
+     * - checkout: Purchase flow
+     * - products: Product-related
+     */
+    "translations": {
+      // English (United States) - primary
+      "en-US": {
+        "common": {
+          "submit": "Submit" /* Form submission */,
+          "cancel": "Cancel",
+          "save": "Save",
+          "delete": "Delete",
+          "loading": "Loading...",
+          "error": "An error occurred"
+        },
+        "auth": {
+          "login": "Log In",
+          "logout": "Log Out",
+          "signup": "Sign Up",
+          "forgotPassword": "Forgot Password?"
+        },
+        "errors": {
+          "required": "This field is required",
+          "invalid_email": "Please enter a valid email",
+          "password_mismatch": "Passwords do not match",
+          "generic": "Something went wrong. Please try again."
+        }
+      },
+      "es-ES": {
+        "common": {
+          "submit": "Enviar",
+          "cancel": "Cancelar",
+          "save": "Guardar",
+          "delete": "Eliminar",
+          "loading": "Cargando...",
+          "error": "Ocurrió un error"
+        },
+        "auth": {
+          "login": "Iniciar Sesión",
+          "logout": "Cerrar Sesión",
+          "signup": "Registrarse",
+          "forgotPassword": "¿Olvidaste tu contraseña?"
+        },
+        "errors": {
+          "required": "Este campo es obligatorio",
+          "invalid_email": "Por favor ingresa un email válido",
+          "password_mismatch": "Las contraseñas no coinciden",
+          "generic": "Algo salió mal. Por favor intenta de nuevo."
+        }
+      },
+      "fr-FR": {
+        "common": {
+          "submit": "Soumettre",
+          "cancel": "Annuler",
+          "save": "Enregistrer",
+          "delete": "Supprimer",
+          "loading": "Chargement...",
+          "error": "Une erreur s'est produite",
+          "confirm": "Confirmer",
+          "back": "Retour",
+          "next": "Suivant",
+          "previous": "Précédent",
+          "search": "Rechercher",
+          "filter": "Filtrer",
+          "sort": "Trier",
+          "clear": "Effacer"
+        },
+        "auth": {
+          "login": "Se connecter",
+          "logout": "Se déconnecter",
+          "signup": "S'inscrire",
+          "forgotPassword": "Mot de passe oublié?",
+          "resetPassword": "Réinitialiser le mot de passe",
+          "verifyEmail": "Vérifier l'email",
+          "twoFactor": "Authentification à deux facteurs"
+        },
+        "errors": {
+          "required": "Ce champ est obligatoire",
+          "invalid_email": "Veuillez entrer une adresse email valide",
+          "password_mismatch": "Les mots de passe ne correspondent pas",
+          "generic": "Une erreur s'est produite. Veuillez réessayer."
+        },
+        "checkout": {
+          "cart": "Panier",
+          "shipping": "Livraison",
+          "payment": "Paiement",
+          "review": "Révision",
+          "complete": "Terminer"
+        }
+      },
+      "de-DE": {
+        "common": {
+          "submit": "Absenden",
+          "cancel": "Abbrechen",
+          "save": "Speichern",
+          "delete": "Löschen",
+          "loading": "Wird geladen...",
+          "error": "Ein Fehler ist aufgetreten",
+          "confirm": "Bestätigen",
+          "back": "Zurück",
+          "next": "Weiter",
+          "previous": "Vorherige",
+          "search": "Suchen",
+          "filter": "Filtern",
+          "sort": "Sortieren",
+          "clear": "Löschen"
+        },
+        "auth": {
+          "login": "Anmelden",
+          "logout": "Abmelden",
+          "signup": "Registrieren",
+          "forgotPassword": "Passwort vergessen?",
+          "resetPassword": "Passwort zurücksetzen",
+          "verifyEmail": "E-Mail verifizieren",
+          "twoFactor": "Zwei-Faktor-Authentifizierung"
+        },
+        "errors": {
+          "required": "Dieses Feld ist erforderlich",
+          "invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+          "password_mismatch": "Passwörter stimmen nicht überein",
+          "generic": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut."
+        },
+        "checkout": {
+          "cart": "Warenkorb",
+          "shipping": "Versand",
+          "payment": "Zahlung",
+          "review": "Überprüfung",
+          "complete": "Abschließen"
+        },
+        "products": {
+          "addToCart": "In den Warenkorb",
+          "outOfStock": "Nicht auf Lager",
+          "inStock": "Auf Lager",
+          "quantity": "Menge",
+          "price": "Preis",
+          "total": "Gesamt"
+        }
+      },
+      "ja-JP": {
+        "common": {
+          "submit": "送信",
+          "cancel": "キャンセル",
+          "save": "保存",
+          "delete": "削除",
+          "loading": "読み込み中...",
+          "error": "エラーが発生しました",
+          "confirm": "確認",
+          "back": "戻る",
+          "next": "次へ",
+          "previous": "前へ",
+          "search": "検索",
+          "filter": "フィルター",
+          "sort": "並べ替え",
+          "clear": "クリア"
+        },
+        "auth": {
+          "login": "ログイン",
+          "logout": "ログアウト",
+          "signup": "新規登録",
+          "forgotPassword": "パスワードをお忘れですか？",
+          "resetPassword": "パスワードをリセット",
+          "verifyEmail": "メールを確認",
+          "twoFactor": "二要素認証"
+        },
+        "errors": {
+          "required": "この項目は必須です",
+          "invalid_email": "有効なメールアドレスを入力してください",
+          "password_mismatch": "パスワードが一致しません",
+          "generic": "問題が発生しました。もう一度お試しください。"
+        },
+        "checkout": {
+          "cart": "カート",
+          "shipping": "配送",
+          "payment": "お支払い",
+          "review": "確認",
+          "complete": "完了"
+        },
+        "products": {
+          "addToCart": "カートに追加",
+          "outOfStock": "在庫切れ",
+          "inStock": "在庫あり",
+          "quantity": "数量",
+          "price": "価格",
+          "total": "合計"
+        }
+      },
+      "pt-BR": {
+        "common": {
+          "submit": "Enviar",
+          "cancel": "Cancelar",
+          "save": "Salvar",
+          "delete": "Excluir",
+          "loading": "Carregando...",
+          "error": "Ocorreu um erro",
+          "confirm": "Confirmar",
+          "back": "Voltar",
+          "next": "Próximo",
+          "previous": "Anterior",
+          "search": "Pesquisar",
+          "filter": "Filtrar",
+          "sort": "Ordenar",
+          "clear": "Limpar"
+        },
+        "auth": {
+          "login": "Entrar",
+          "logout": "Sair",
+          "signup": "Cadastrar",
+          "forgotPassword": "Esqueceu a senha?",
+          "resetPassword": "Redefinir senha",
+          "verifyEmail": "Verificar email",
+          "twoFactor": "Autenticação de dois fatores"
+        },
+        "errors": {
+          "required": "Este campo é obrigatório",
+          "invalid_email": "Por favor, insira um email válido",
+          "password_mismatch": "As senhas não coincidem",
+          "generic": "Algo deu errado. Por favor, tente novamente."
+        },
+        "checkout": {
+          "cart": "Carrinho",
+          "shipping": "Entrega",
+          "payment": "Pagamento",
+          "review": "Revisão",
+          "complete": "Concluir"
+        }
+      },
+      "zh-CN": null, // Pending translation
+      "ko-KR": null // Pending translation
+    }
+  },
+  /*
+   * ===========================================
+   * AUDIT LOG SECTION
+   * ===========================================
+   * Complete audit trail of all system actions
+   *
+   * Actor types: user, system, api
+   * Actions: CRUD operations, auth events, etc.
+   * Retention: 90 days
+   */
+  "audit": {
+    // Most recent audit entries (newest first)
+    "recent": [
+      {
+        "id": "aud_001" /* First audit entry */,
+        "timestamp": "2024-01-15T10:30:00Z", // ISO 8601
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "user.update",
+        "target": { "type": "user", "id": "usr_002" },
+        "changes": {
+          "permissions": { "from": ["read"], "to": ["read", "write"] }
+        },
+        "ip": "192.168.1.100",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      },
+      {
+        "id": "aud_002",
+        "timestamp": "2024-01-15T10:25:00Z",
+        "actor": { "type": "system", "id": null, "email": null },
+        "action": "integration.sync",
+        "target": { "type": "integration", "id": "int_002" },
+        "changes": null,
+        "ip": null,
+        "userAgent": null
+      },
+      {
+        "id": "aud_003",
+        "timestamp": "2024-01-15T10:20:00Z",
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "alert.acknowledge",
+        "target": { "type": "alert", "id": "alert_002" },
+        "changes": { "acknowledged": { "from": false, "to": true } },
+        "ip": "192.168.1.100",
+        "userAgent": null
+      },
+      {
+        "id": "aud_004",
+        "timestamp": "2024-01-15T10:15:00Z",
+        "actor": { "type": "user", "id": "usr_003", "email": "charlie@example.com" },
+        "action": "product.create",
+        "target": { "type": "product", "id": "PROD-005" },
+        "changes": {
+          "name": { "from": null, "to": "Premium Widget" },
+          "price": { "from": null, "to": 299.99 },
+          "status": { "from": null, "to": "draft" }
+        },
+        "ip": "10.0.0.25",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      },
+      {
+        "id": "aud_005",
+        "timestamp": "2024-01-15T10:10:00Z",
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "order.refund",
+        "target": { "type": "order", "id": "ord_003" },
+        "changes": {
+          "status": { "from": "completed", "to": "refunded" },
+          "refundAmount": { "from": null, "to": 219.99 }
+        },
+        "ip": "192.168.1.100",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      },
+      {
+        "id": "aud_006",
+        "timestamp": "2024-01-15T10:05:00Z",
+        "actor": { "type": "api", "id": "svc_001", "email": null },
+        "action": "webhook.received",
+        "target": { "type": "webhook", "id": "wh_stripe_001" },
+        "changes": null,
+        "ip": "54.187.205.235",
+        "userAgent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)"
+      },
+      {
+        "id": "aud_007",
+        "timestamp": "2024-01-15T10:00:00Z",
+        "actor": { "type": "user", "id": "usr_002", "email": "bob@example.com" },
+        "action": "settings.update",
+        "target": { "type": "organization", "id": "org_001" },
+        "changes": {
+          "settings.security.mfa": { "from": "optional", "to": "required" }
+        },
+        "ip": "203.0.113.50",
+        "userAgent": null
+      },
+      {
+        "id": "aud_008",
+        "timestamp": "2024-01-15T09:55:00Z",
+        "actor": { "type": "system", "id": null, "email": null },
+        "action": "backup.completed",
+        "target": { "type": "database", "id": "db_primary" },
+        "changes": {
+          "size": { "from": null, "to": "15.2GB" },
+          "duration": { "from": null, "to": 1823 }
+        },
+        "ip": null,
+        "userAgent": null
+      },
+      {
+        "id": "aud_009",
+        "timestamp": "2024-01-15T09:50:00Z",
+        "actor": { "type": "user", "id": "usr_004", "email": "diana@example.com" },
+        "action": "user.invite",
+        "target": { "type": "user", "id": "usr_005" },
+        "changes": {
+          "email": { "from": null, "to": "newuser@example.com" },
+          "role": { "from": null, "to": "user" },
+          "organization": { "from": null, "to": "org_001" }
+        },
+        "ip": "172.16.0.100",
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)"
+      },
+      {
+        "id": "aud_010",
+        "timestamp": "2024-01-15T09:45:00Z",
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "feature_flag.toggle",
+        "target": { "type": "feature_flag", "id": "ff_new_checkout" },
+        "changes": {
+          "enabled": { "from": false, "to": true },
+          "rollout": { "from": 0, "to": 25 }
+        },
+        "ip": "192.168.1.100",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      },
+      {
+        "id": "aud_011",
+        "timestamp": "2024-01-15T09:40:00Z",
+        "actor": { "type": "system", "id": null, "email": null },
+        "action": "deployment.started",
+        "target": { "type": "deployment", "id": "deploy_003" },
+        "changes": {
+          "version": { "from": "v2.15.3", "to": "v2.15.4" },
+          "regions": { "from": null, "to": ["us-east-1"] }
+        },
+        "ip": null,
+        "userAgent": null
+      },
+      {
+        "id": "aud_012",
+        "timestamp": "2024-01-15T09:35:00Z",
+        "actor": { "type": "user", "id": "usr_003", "email": "charlie@example.com" },
+        "action": "api_key.rotate",
+        "target": { "type": "api_key", "id": "key_001" },
+        "changes": {
+          "lastRotated": { "from": "2024-01-01T00:00:00Z", "to": "2024-01-15T09:35:00Z" }
+        },
+        "ip": "10.0.0.25",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+      },
+      {
+        "id": "aud_013",
+        "timestamp": "2024-01-15T09:30:00Z",
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "report.generate",
+        "target": { "type": "report", "id": "rpt_monthly_001" },
+        "changes": {
+          "status": { "from": "pending", "to": "completed" },
+          "format": { "from": null, "to": "pdf" },
+          "size": { "from": null, "to": 2500000 }
+        },
+        "ip": "192.168.1.100",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      },
+      {
+        "id": "aud_014",
+        "timestamp": "2024-01-15T09:25:00Z",
+        "actor": { "type": "api", "id": "svc_002", "email": null },
+        "action": "data.import",
+        "target": { "type": "import", "id": "imp_001" },
+        "changes": {
+          "status": { "from": "processing", "to": "completed" },
+          "records": { "from": null, "to": 50000 },
+          "errors": { "from": null, "to": 12 }
+        },
+        "ip": "10.0.0.50",
+        "userAgent": null
+      },
+      {
+        "id": "aud_015",
+        "timestamp": "2024-01-15T09:20:00Z",
+        "actor": { "type": "user", "id": "usr_002", "email": "bob@example.com" },
+        "action": "user.login",
+        "target": { "type": "user", "id": "usr_002" },
+        "changes": null,
+        "ip": "203.0.113.50",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/120.0"
+      },
+      {
+        "id": "aud_016",
+        "timestamp": "2024-01-15T09:15:00Z",
+        "actor": { "type": "system", "id": null, "email": null },
+        "action": "cache.purge",
+        "target": { "type": "cache", "id": "cache_api_responses" },
+        "changes": {
+          "keysRemoved": { "from": null, "to": 15000 },
+          "sizeFreed": { "from": null, "to": "500MB" }
+        },
+        "ip": null,
+        "userAgent": null
+      },
+      {
+        "id": "aud_017",
+        "timestamp": "2024-01-15T09:10:00Z",
+        "actor": { "type": "user", "id": "usr_004", "email": "diana@example.com" },
+        "action": "category.create",
+        "target": { "type": "category", "id": "cat_005" },
+        "changes": {
+          "name": { "from": null, "to": "Seasonal Items" },
+          "parent": { "from": null, "to": "cat_001" }
+        },
+        "ip": "172.16.0.100",
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)"
+      },
+      {
+        "id": "aud_018",
+        "timestamp": "2024-01-15T09:05:00Z",
+        "actor": { "type": "user", "id": "usr_001", "email": "alice@example.com" },
+        "action": "workflow.update",
+        "target": { "type": "workflow", "id": "wf_001" },
+        "changes": {
+          "version": { "from": 4, "to": 5 },
+          "steps": { "from": 5, "to": 6 }
+        },
+        "ip": "192.168.1.100",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      },
+      {
+        "id": "aud_019",
+        "timestamp": "2024-01-15T09:00:00Z",
+        "actor": { "type": "api", "id": "svc_001", "email": null },
+        "action": "order.create",
+        "target": { "type": "order", "id": "ord_005" },
+        "changes": {
+          "status": { "from": null, "to": "pending" },
+          "total": { "from": null, "to": 599.99 }
+        },
+        "ip": "54.187.205.235",
+        "userAgent": "API Client/1.0"
+      },
+      {
+        "id": "aud_020",
+        "timestamp": "2024-01-15T08:55:00Z",
+        "actor": { "type": "user", "id": "usr_003", "email": "charlie@example.com" },
+        "action": "discount.create",
+        "target": { "type": "discount", "id": "disc_001" },
+        "changes": {
+          "code": { "from": null, "to": "WINTER25" },
+          "type": { "from": null, "to": "percentage" },
+          "value": { "from": null, "to": 25 },
+          "validUntil": { "from": null, "to": "2024-03-01T00:00:00Z" }
+        },
+        "ip": "10.0.0.25",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+      }
+    ],
+    "retention": {
+      "days": 90,
+      "archiveAfter": 30,
+      "deleteAfter": 365
+    },
+    "exports": []
+  },
+  "cache": {
+    "policies": [
+      {
+        "name": "user-sessions",
+        "ttl": 3600,
+        "maxSize": "500MB",
+        "eviction": "lru",
+        "compression": null
+      },
+      {
+        "name": "api-responses",
+        "ttl": 300,
+        "maxSize": "2GB",
+        "eviction": "lfu",
+        "compression": "gzip"
+      },
+      {
+        "name": "static-assets",
+        "ttl": 86400,
+        "maxSize": null, // Unlimited
+        "eviction": null,
+        "compression": "brotli"
+      }
+    ],
+    "stats": {
+      "totalSize": "3.2GB",
+      "hitRate": 0.89,
+      "missRate": 0.11,
+      "evictions": 15000
+    }
+  },
+  "rateLimit": {
+    "global": {
+      "requests": 1000,
+      "window": "1m",
+      "burst": 50
+    },
+    "perEndpoint": {
+      "/api/auth/login": { "requests": 5, "window": "1m", "burst": null },
+      "/api/auth/signup": { "requests": 3, "window": "1m", "burst": null },
+      "/api/search": { "requests": 100, "window": "1m", "burst": 20 },
+      "/api/export": { "requests": 10, "window": "1h", "burst": null }
+    },
+    "perTier": {
+      "free": { "requests": 100, "window": "1h", "burst": 10 },
+      "pro": { "requests": 1000, "window": "1h", "burst": 50 },
+      "enterprise": null // Unlimited
+    }
+  },
+  "scheduled": {
+    "jobs": [
+      {
+        "id": "job_001",
+        "name": "Daily Report",
+        "schedule": "0 8 * * *",
+        "timezone": "America/New_York",
+        "enabled": true,
+        "lastRun": "2024-01-15T08:00:00Z",
+        "nextRun": "2024-01-16T08:00:00Z",
+        "status": "completed",
+        "config": {
+          "recipients": ["admin@example.com"],
+          "format": "pdf"
+        }
+      },
+      {
+        "id": "job_002",
+        "name": "Database Backup",
+        "schedule": "0 2 * * *",
+        "timezone": "UTC",
+        "enabled": true,
+        "lastRun": "2024-01-15T02:00:00Z",
+        "nextRun": "2024-01-16T02:00:00Z",
+        "status": "completed",
+        "config": {
+          "retention": 30,
+          "destination": "s3://backups/db/"
+        }
+      },
+      {
+        "id": "job_003",
+        "name": "Cache Cleanup",
+        "schedule": "0 */4 * * *",
+        "timezone": "UTC",
+        "enabled": false,
+        "lastRun": null,
+        "nextRun": null,
+        "status": null,
+        "config": null
+      }
+    ],
+    "history": [
+      { "jobId": "job_001", "runAt": "2024-01-15T08:00:00Z", "duration": 45, "status": "success", "error": null },
+      { "jobId": "job_002", "runAt": "2024-01-15T02:00:00Z", "duration": 1800, "status": "success", "error": null },
+      { "jobId": "job_001", "runAt": "2024-01-14T08:00:00Z", "duration": 52, "status": "success", "error": null },
+      {
+        "jobId": "job_002",
+        "runAt": "2024-01-14T02:00:00Z",
+        "duration": 1750,
+        "status": "failed",
+        "error": "Connection timeout"
+      }
+    ]
+  },
+  "extensions": {
+    "installed": [
+      {
+        "id": "ext_001",
+        "name": "Advanced Analytics",
+        "version": "2.3.0",
+        "author": "Analytics Corp",
+        "enabled": true,
+        "config": {
+          "trackingId": "UA-12345678-1",
+          "customDimensions": {
+            "dimension1": "user_type",
+            "dimension2": "plan"
+          }
+        },
+        "permissions": ["read:analytics", "write:analytics"],
+        "hooks": {
+          "onPageView": true,
+          "onPurchase": true,
+          "onSignup": false
+        }
+      },
+      {
+        "id": "ext_002",
+        "name": "Custom Reports",
+        "version": "1.0.0",
+        "author": null,
+        "enabled": false,
+        "config": {},
+        "permissions": ["read:analytics"],
+        "hooks": null
+      }
+    ],
+    "marketplace": {
+      "featured": ["ext_003", "ext_004"],
+      "categories": ["analytics", "marketing", "productivity", "integrations"]
+    }
+  },
+  "legacy": {
+    // Deprecated data structures kept for backwards compatibility
+    "v1": {
+      "users": null,
+      "config": {
+        "deprecated": true,
+        "migratedAt": "2023-06-01T00:00:00Z",
+        "data": null
+      }
+    },
+    "migrations": [
+      { "from": "v1", "to": "v2", "completedAt": "2023-06-01", "status": "completed" },
+      { "from": "v2", "to": "v3", "completedAt": null, "status": "in_progress" }
+    ]
+  },
+  /*
+   * ===========================================
+   * DEEPLY NESTED SECTION
+   * ===========================================
+   * Extreme nesting test structure (25 levels deep)
+   *
+   * Structure alternates between objects and arrays:
+   * level1 (obj) -> level2 (obj) -> level3 (arr) -> ...
+   *
+   * Purpose: Stress test for recursive parsers
+   * Deepest value: "DEEPEST_POINT" at level 25
+   */
+  "deeplyNested": {
+    // 25-level deep nested structure for stress testing parsers
+    /* This is intentionally complex */
+    "level1": {
+      "id": "L1", // Level 1 identifier
+      "type": "container" /* Container type node */,
+      "children": [
+        {
+          // Level 2 begins here
+          "level2": {
+            "id": "L2" /* Second level */,
+            "data": { "key": "value2", "count": 2 },
+            "nested": {
+              "level3": {
+                "id": "L3",
+                "items": [
+                  {
+                    "level4": {
+                      "id": "L4",
+                      "meta": { "created": "2024-01-01", "modified": null },
+                      "content": {
+                        "level5": {
+                          "id": "L5",
+                          "props": ["a", "b", "c"],
+                          "deep": {
+                            "level6": {
+                              "id": "L6",
+                              "config": { "enabled": true, "timeout": 30 },
+                              "branch": {
+                                "level7": {
+                                  "id": "L7",
+                                  "values": [1, 2, 3, null, 5],
+                                  "node": {
+                                    "level8": {
+                                      "id": "L8",
+                                      "flags": { "active": true, "visible": false, "locked": null },
+                                      "subtree": {
+                                        "level9": {
+                                          "id": "L9",
+                                          "tags": ["important", "reviewed"],
+                                          "element": {
+                                            "level10": {
+                                              "id": "L10",
+                                              "attrs": { "class": "deep-node", "style": null },
+                                              "wrapper": {
+                                                "level11": {
+                                                  "id": "L11",
+                                                  "list": [
+                                                    { "item": "first", "order": 1 },
+                                                    { "item": "second", "order": 2 }
+                                                  ],
+                                                  "container": {
+                                                    "level12": {
+                                                      "id": "L12",
+                                                      "settings": { "mode": "advanced", "cache": true },
+                                                      "inner": {
+                                                        "level13": {
+                                                          "id": "L13",
+                                                          "options": { "format": "json", "compress": false },
+                                                          "core": {
+                                                            "level14": {
+                                                              "id": "L14",
+                                                              "metrics": { "hits": 1500, "misses": 45 },
+                                                              "kernel": {
+                                                                "level15": {
+                                                                  "id": "L15",
+                                                                  "state": "running",
+                                                                  "processes": [
+                                                                    {
+                                                                      "level16": {
+                                                                        "id": "L16",
+                                                                        "pid": 12345,
+                                                                        "threads": {
+                                                                          "level17": {
+                                                                            "id": "L17",
+                                                                            "count": 8,
+                                                                            "stack": {
+                                                                              "level18": {
+                                                                                "id": "L18",
+                                                                                "frames": ["main", "init", "process"],
+                                                                                "heap": {
+                                                                                  "level19": {
+                                                                                    "id": "L19",
+                                                                                    "allocated": 1024,
+                                                                                    "memory": {
+                                                                                      "level20": {
+                                                                                        "id": "L20",
+                                                                                        "segments": [
+                                                                                          {
+                                                                                            "level21": {
+                                                                                              "id": "L21",
+                                                                                              "address": "0x7fff",
+                                                                                              "blocks": {
+                                                                                                "level22": {
+                                                                                                  "id": "L22",
+                                                                                                  "size": 4096,
+                                                                                                  "pages": {
+                                                                                                    "level23": {
+                                                                                                      "id": "L23",
+                                                                                                      "mapped": true,
+                                                                                                      "entries": [
+                                                                                                        {
+                                                                                                          "level24": {
+                                                                                                            "id": "L24",
+                                                                                                            "offset": 0,
+                                                                                                            "final": {
+                                                                                                              "level25": {
+                                                                                                                "id": "L25",
+                                                                                                                "value": "DEEPEST_POINT",
+                                                                                                                "metadata": {
+                                                                                                                  "depth": 25,
+                                                                                                                  "path": "/level1/children[0]/level2/.../level25",
+                                                                                                                  "timestamp": "2024-01-15T12:00:00Z",
+                                                                                                                  "checksum": null
+                                                                                                                },
+                                                                                                                "siblings": []
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        },
+                                                                                                        {
+                                                                                                          "level24_alt": {
+                                                                                                            "id": "L24-B",
+                                                                                                            "offset": 512,
+                                                                                                            "final": null // Incomplete branch
+                                                                                                          }
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        "free": 512
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  /*
+   * ===========================================
+   * ORDERS SECTION
+   * ===========================================
+   * E-commerce order data with:
+   * - Recent orders (various statuses)
+   * - Order items and pricing
+   * - Shipping and payment info
+   * - Refund history
+   *
+   * Statuses: pending, processing, completed, cancelled, refunded
+   */
+  "orders": {
+    // Large order history with varied statuses and structures
+    /* Orders sorted by date descending */
+    "recent": [
+      {
+        "id": "ord_001", // First order
+        "status": "completed" /* Successfully delivered */,
+        "customer": {
+          "id": "cust_001", // Customer reference
+          "email": "john.doe@email.com" /* Primary contact */,
+          "name": { "first": "John", "last": "Doe" },
+          "phone": "+1-555-0101", // For delivery updates
+          "verified": true
+        },
+        "items": [
+          { "sku": "PROD-001", "name": "Widget Pro", "qty": 2, "unitPrice": 199.99, "discount": null },
+          {
+            "sku": "PROD-003",
+            "name": "Widget Cable",
+            "qty": 1,
+            "unitPrice": 29.99,
+            "discount": { "type": "promo", "amount": 5.0 }
+          }
+        ],
+        "shipping": {
+          "method": "express",
+          "carrier": "FedEx",
+          "tracking": "FX123456789",
+          "address": {
+            "line1": "456 Oak Avenue",
+            "line2": "Apt 3B",
+            "city": "Portland",
+            "state": "OR",
+            "zip": "97201",
+            "country": "US"
+          },
+          "estimatedDelivery": "2024-01-18",
+          "actualDelivery": "2024-01-17"
+        },
+        "payment": {
+          "method": "card",
+          "brand": "mastercard",
+          "last4": "5678",
+          "status": "captured",
+          "transactionId": "txn_abc123"
+        },
+        "totals": {
+          "subtotal": 429.97,
+          "shipping": 15.0,
+          "tax": 38.7,
+          "discount": -5.0,
+          "total": 478.67
+        },
+        "timestamps": {
+          "created": "2024-01-15T09:00:00Z",
+          "paid": "2024-01-15T09:01:15Z",
+          "shipped": "2024-01-15T14:30:00Z",
+          "delivered": "2024-01-17T11:22:00Z"
+        },
+        "notes": null
+      },
+      {
+        "id": "ord_002",
+        "status": "processing",
+        "customer": {
+          "id": "cust_002",
+          "email": "jane.smith@email.com",
+          "name": { "first": "Jane", "last": "Smith" },
+          "phone": null, // Not provided
+          "verified": false
+        },
+        "items": [
+          {
+            "sku": "PROD-002",
+            "name": "Basic Widget",
+            "qty": 5,
+            "unitPrice": 49.99,
+            "discount": { "type": "volume", "amount": 24.99 }
+          }
+        ],
+        "shipping": {
+          "method": "standard",
+          "carrier": null, // Not assigned yet
+          "tracking": null,
+          "address": {
+            "line1": "789 Pine Street",
+            "line2": null,
+            "city": "Seattle",
+            "state": "WA",
+            "zip": "98101",
+            "country": "US"
+          },
+          "estimatedDelivery": "2024-01-22",
+          "actualDelivery": null
+        },
+        "payment": {
+          "method": "paypal",
+          "brand": null,
+          "last4": null,
+          "status": "captured",
+          "transactionId": "PP-XYZ789"
+        },
+        "totals": {
+          "subtotal": 249.95,
+          "shipping": 0.0,
+          "tax": 25.0,
+          "discount": -24.99,
+          "total": 249.96
+        },
+        "timestamps": {
+          "created": "2024-01-15T10:30:00Z",
+          "paid": "2024-01-15T10:31:00Z",
+          "shipped": null,
+          "delivered": null
+        },
+        "notes": "Customer requested gift wrapping"
+      },
+      {
+        "id": "ord_003",
+        "status": "cancelled",
+        "customer": {
+          "id": "cust_003",
+          "email": "bob.wilson@email.com",
+          "name": { "first": "Bob", "last": "Wilson" },
+          "phone": "+1-555-0303",
+          "verified": true
+        },
+        "items": [{ "sku": "PROD-001", "name": "Widget Pro", "qty": 1, "unitPrice": 199.99, "discount": null }],
+        "shipping": null, // Never shipped
+        "payment": {
+          "method": "card",
+          "brand": "visa",
+          "last4": "1234",
+          "status": "refunded",
+          "transactionId": "txn_def456",
+          "refund": {
+            "id": "ref_001",
+            "amount": 219.99,
+            "reason": "customer_request",
+            "processedAt": "2024-01-14T16:00:00Z"
+          }
+        },
+        "totals": {
+          "subtotal": 199.99,
+          "shipping": 10.0,
+          "tax": 10.0,
+          "discount": 0,
+          "total": 219.99
+        },
+        "timestamps": {
+          "created": "2024-01-14T12:00:00Z",
+          "paid": "2024-01-14T12:01:00Z",
+          "cancelled": "2024-01-14T15:30:00Z",
+          "shipped": null,
+          "delivered": null
+        },
+        "notes": "Order cancelled by customer before shipment"
+      },
+      {
+        "id": "ord_004",
+        "status": "pending_payment",
+        "customer": {
+          "id": "cust_004",
+          "email": "alice.brown@email.com",
+          "name": { "first": "Alice", "last": "Brown" },
+          "phone": null,
+          "verified": false
+        },
+        "items": [
+          {
+            "sku": "PROD-001",
+            "name": "Widget Pro",
+            "qty": 10,
+            "unitPrice": 199.99,
+            "discount": { "type": "volume", "amount": 199.99 }
+          },
+          { "sku": "PROD-004", "name": "Widget Stand", "qty": 10, "unitPrice": 39.99, "discount": null }
+        ],
+        "shipping": null,
+        "payment": {
+          "method": "invoice",
+          "brand": null,
+          "last4": null,
+          "status": "pending",
+          "transactionId": null,
+          "invoiceId": "INV-2024-0042",
+          "dueDate": "2024-02-15"
+        },
+        "totals": {
+          "subtotal": 2399.8,
+          "shipping": 0.0,
+          "tax": 192.0,
+          "discount": -199.99,
+          "total": 2391.81
+        },
+        "timestamps": {
+          "created": "2024-01-15T11:00:00Z",
+          "paid": null,
+          "shipped": null,
+          "delivered": null
+        },
+        "notes": "B2B order - NET30 terms"
+      }
+    ],
+    "stats": {
+      "today": { "count": 45, "revenue": 8750.0, "avgOrderValue": 194.44 },
+      "week": { "count": 312, "revenue": 62400.0, "avgOrderValue": 200.0 },
+      "month": { "count": 1250, "revenue": 250000.0, "avgOrderValue": 200.0 },
+      "year": { "count": 15000, "revenue": 3000000.0, "avgOrderValue": 200.0 }
+    }
+  },
+  /*
+   * ===========================================
+   * API ROUTES SECTION
+   * ===========================================
+   * REST API endpoint definitions including:
+   * - Route handlers and middleware
+   * - Request/response schemas
+   * - Rate limiting configuration
+   * - Deprecation status
+   *
+   * Versioned under v1 and v2 namespaces
+   */
+  "apiRoutes": {
+    /* Comprehensive API route configuration */
+    // Version 1 API (legacy, being phased out)
+    "v1": {
+      /* Authentication endpoints */
+      "auth": {
+        // Login endpoint - returns JWT token
+        "POST /login": {
+          "handler": "AuthController.login" /* Controller method */,
+          "middleware": ["rateLimit", "validateBody"], // Applied in order
+          "schema": {
+            "body": { "email": "string", "password": "string" }, // Required fields
+            "response": { "token": "string", "user": "object" }
+          },
+          "rateLimit": { "requests": 5, "window": 60 },
+          "public": true,
+          "deprecated": false
+        },
+        "POST /logout": {
+          "handler": "AuthController.logout",
+          "middleware": ["authenticate"],
+          "schema": null,
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "POST /register": {
+          "handler": "AuthController.register",
+          "middleware": ["rateLimit", "validateBody"],
+          "schema": {
+            "body": { "email": "string", "password": "string", "name": "string" },
+            "response": { "user": "object", "token": "string" }
+          },
+          "rateLimit": { "requests": 3, "window": 60 },
+          "public": true,
+          "deprecated": false
+        },
+        "POST /forgot-password": {
+          "handler": "AuthController.forgotPassword",
+          "middleware": ["rateLimit"],
+          "schema": { "body": { "email": "string" } },
+          "rateLimit": { "requests": 3, "window": 300 },
+          "public": true,
+          "deprecated": false
+        },
+        "POST /reset-password": {
+          "handler": "AuthController.resetPassword",
+          "middleware": ["rateLimit", "validateBody"],
+          "schema": { "body": { "token": "string", "password": "string" } },
+          "rateLimit": { "requests": 3, "window": 300 },
+          "public": true,
+          "deprecated": false
+        },
+        "POST /refresh": {
+          "handler": "AuthController.refresh",
+          "middleware": [],
+          "schema": { "body": { "refreshToken": "string" } },
+          "rateLimit": null,
+          "public": true,
+          "deprecated": false
+        }
+      },
+      "users": {
+        "GET /users": {
+          "handler": "UserController.list",
+          "middleware": ["authenticate", "authorize:admin"],
+          "schema": {
+            "query": { "page": "number?", "limit": "number?", "search": "string?" },
+            "response": { "users": "array", "total": "number", "page": "number" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "GET /users/:id": {
+          "handler": "UserController.get",
+          "middleware": ["authenticate", "authorize:self|admin"],
+          "schema": {
+            "params": { "id": "string" },
+            "response": { "user": "object" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "PUT /users/:id": {
+          "handler": "UserController.update",
+          "middleware": ["authenticate", "authorize:self|admin", "validateBody"],
+          "schema": {
+            "params": { "id": "string" },
+            "body": { "name": "string?", "email": "string?", "preferences": "object?" },
+            "response": { "user": "object" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "DELETE /users/:id": {
+          "handler": "UserController.delete",
+          "middleware": ["authenticate", "authorize:admin"],
+          "schema": { "params": { "id": "string" } },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "GET /users/me": {
+          "handler": "UserController.me",
+          "middleware": ["authenticate"],
+          "schema": { "response": { "user": "object" } },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        }
+      },
+      "products": {
+        "GET /products": {
+          "handler": "ProductController.list",
+          "middleware": ["cache:300"],
+          "schema": {
+            "query": {
+              "category": "string?",
+              "search": "string?",
+              "minPrice": "number?",
+              "maxPrice": "number?",
+              "page": "number?",
+              "limit": "number?"
+            },
+            "response": { "products": "array", "total": "number", "facets": "object" }
+          },
+          "rateLimit": null,
+          "public": true,
+          "deprecated": false
+        },
+        "GET /products/:id": {
+          "handler": "ProductController.get",
+          "middleware": ["cache:600"],
+          "schema": {
+            "params": { "id": "string" },
+            "response": { "product": "object" }
+          },
+          "rateLimit": null,
+          "public": true,
+          "deprecated": false
+        },
+        "POST /products": {
+          "handler": "ProductController.create",
+          "middleware": ["authenticate", "authorize:admin", "validateBody"],
+          "schema": {
+            "body": { "name": "string", "description": "string?", "price": "number", "category": "string" },
+            "response": { "product": "object" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "PUT /products/:id": {
+          "handler": "ProductController.update",
+          "middleware": ["authenticate", "authorize:admin", "validateBody"],
+          "schema": {
+            "params": { "id": "string" },
+            "body": { "name": "string?", "description": "string?", "price": "number?", "category": "string?" },
+            "response": { "product": "object" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "DELETE /products/:id": {
+          "handler": "ProductController.delete",
+          "middleware": ["authenticate", "authorize:admin"],
+          "schema": { "params": { "id": "string" } },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        }
+      },
+      "orders": {
+        "GET /orders": {
+          "handler": "OrderController.list",
+          "middleware": ["authenticate"],
+          "schema": {
+            "query": { "status": "string?", "from": "date?", "to": "date?", "page": "number?" },
+            "response": { "orders": "array", "total": "number" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "GET /orders/:id": {
+          "handler": "OrderController.get",
+          "middleware": ["authenticate", "authorize:owner|admin"],
+          "schema": {
+            "params": { "id": "string" },
+            "response": { "order": "object" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        },
+        "POST /orders": {
+          "handler": "OrderController.create",
+          "middleware": ["authenticate", "validateBody"],
+          "schema": {
+            "body": { "items": "array", "shippingAddress": "object", "paymentMethod": "string" },
+            "response": { "order": "object", "paymentIntent": "object?" }
+          },
+          "rateLimit": { "requests": 10, "window": 60 },
+          "public": false,
+          "deprecated": false
+        },
+        "POST /orders/:id/cancel": {
+          "handler": "OrderController.cancel",
+          "middleware": ["authenticate", "authorize:owner|admin"],
+          "schema": {
+            "params": { "id": "string" },
+            "body": { "reason": "string?" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false
+        }
+      },
+      "webhooks": {
+        "POST /webhooks/stripe": {
+          "handler": "WebhookController.stripe",
+          "middleware": ["verifyStripeSignature"],
+          "schema": null,
+          "rateLimit": null,
+          "public": true, // But signature verified
+          "deprecated": false
+        },
+        "POST /webhooks/mailchimp": {
+          "handler": "WebhookController.mailchimp",
+          "middleware": ["verifyMailchimpSignature"],
+          "schema": null,
+          "rateLimit": null,
+          "public": true,
+          "deprecated": false
+        }
+      }
+    },
+    "v2": {
+      // New API version with breaking changes
+      "users": {
+        "GET /users": {
+          "handler": "UserControllerV2.list",
+          "middleware": ["authenticate", "authorize:admin"],
+          "schema": {
+            "query": { "cursor": "string?", "limit": "number?" },
+            "response": { "data": "array", "nextCursor": "string?", "hasMore": "boolean" }
+          },
+          "rateLimit": null,
+          "public": false,
+          "deprecated": false,
+          "changes": ["Switched from offset pagination to cursor-based"]
+        }
+      }
+    }
+  },
+  "notifications": {
+    "templates": {
+      "order_confirmation": {
+        "id": "tpl_001",
+        "name": "Order Confirmation",
+        "channels": ["email", "push"],
+        "email": {
+          "subject": "Your order #{{order.id}} has been confirmed",
+          "from": "orders@example.com",
+          "replyTo": "support@example.com",
+          "templateId": "d-abc123",
+          "variables": ["order", "customer", "items"]
+        },
+        "push": {
+          "title": "Order Confirmed",
+          "body": "Your order #{{order.id}} is on its way!",
+          "icon": "order_icon",
+          "action": { "type": "deeplink", "url": "/orders/{{order.id}}" }
+        },
+        "sms": null // Not configured
+      },
+      "shipping_update": {
+        "id": "tpl_002",
+        "name": "Shipping Update",
+        "channels": ["email", "push", "sms"],
+        "email": {
+          "subject": "Your order is on the way!",
+          "from": "shipping@example.com",
+          "replyTo": null,
+          "templateId": "d-def456",
+          "variables": ["order", "tracking", "estimatedDelivery"]
+        },
+        "push": {
+          "title": "Package Shipped",
+          "body": "Track your package: {{tracking.number}}",
+          "icon": "shipping_icon",
+          "action": { "type": "url", "url": "{{tracking.url}}" }
+        },
+        "sms": {
+          "body": "Your order has shipped! Track at: {{tracking.url}}",
+          "sender": "EXAMPLE"
+        }
+      },
+      "password_reset": {
+        "id": "tpl_003",
+        "name": "Password Reset",
+        "channels": ["email"],
+        "email": {
+          "subject": "Reset your password",
+          "from": "security@example.com",
+          "replyTo": null,
+          "templateId": "d-ghi789",
+          "variables": ["user", "resetLink", "expiresIn"]
+        },
+        "push": null,
+        "sms": null
+      }
+    },
+    "queue": {
+      "pending": [
+        {
+          "id": "notif_001",
+          "template": "order_confirmation",
+          "channel": "email",
+          "recipient": "john@example.com",
+          "data": { "orderId": "ord_001" },
+          "scheduledFor": null,
+          "attempts": 0,
+          "maxAttempts": 3,
+          "createdAt": "2024-01-15T12:00:00Z"
+        }
+      ],
+      "stats": {
+        "sent": { "today": 1500, "week": 10500, "month": 45000 },
+        "failed": { "today": 12, "week": 85, "month": 350 },
+        "pending": 25
+      }
+    }
+  },
+  "permissions": {
+    /* Role-based access control configuration */
+    "roles": {
+      "admin": {
+        "id": "role_admin",
+        "name": "Administrator",
+        "description": "Full system access",
+        "permissions": ["*"],
+        "inherits": null,
+        "system": true
+      },
+      "manager": {
+        "id": "role_manager",
+        "name": "Manager",
+        "description": "Manage users and orders",
+        "permissions": [
+          "users:read",
+          "users:write",
+          "orders:read",
+          "orders:write",
+          "orders:refund",
+          "products:read",
+          "products:write",
+          "analytics:read",
+          "settings:read"
+        ],
+        "inherits": "user",
+        "system": true
+      },
+      "user": {
+        "id": "role_user",
+        "name": "User",
+        "description": "Standard user access",
+        "permissions": [
+          "users:read:self",
+          "users:write:self",
+          "orders:read:self",
+          "orders:create",
+          "products:read",
+          "cart:*"
+        ],
+        "inherits": null,
+        "system": true
+      },
+      "guest": {
+        "id": "role_guest",
+        "name": "Guest",
+        "description": "Unauthenticated access",
+        "permissions": ["products:read", "cart:read", "cart:write"],
+        "inherits": null,
+        "system": true
+      }
+    },
+    "resources": {
+      "users": {
+        "actions": ["read", "write", "delete"],
+        "scopes": ["self", "org", "all"],
+        "description": "User management"
+      },
+      "orders": {
+        "actions": ["read", "create", "write", "cancel", "refund"],
+        "scopes": ["self", "org", "all"],
+        "description": "Order management"
+      },
+      "products": {
+        "actions": ["read", "write", "delete", "publish"],
+        "scopes": ["all"],
+        "description": "Product catalog"
+      },
+      "analytics": {
+        "actions": ["read", "export"],
+        "scopes": ["org", "all"],
+        "description": "Analytics and reporting"
+      },
+      "settings": {
+        "actions": ["read", "write"],
+        "scopes": ["org", "all"],
+        "description": "System settings"
+      }
+    }
+  },
+  "search": {
+    "indexes": {
+      "products": {
+        "name": "products",
+        "fields": [
+          { "name": "name", "type": "text", "searchable": true, "weight": 10 },
+          { "name": "description", "type": "text", "searchable": true, "weight": 5 },
+          { "name": "category", "type": "keyword", "filterable": true, "facetable": true },
+          { "name": "price", "type": "number", "filterable": true, "sortable": true },
+          { "name": "rating", "type": "number", "filterable": true, "sortable": true },
+          { "name": "inStock", "type": "boolean", "filterable": true },
+          { "name": "tags", "type": "keyword", "filterable": true, "facetable": true, "multi": true }
+        ],
+        "settings": {
+          "synonyms": [
+            { "input": ["widget", "gadget", "device"], "type": "equivalent" },
+            { "input": ["cheap", "affordable", "budget"], "type": "equivalent" }
+          ],
+          "stopwords": ["the", "a", "an", "is", "are"],
+          "typoTolerance": { "enabled": true, "minLength": 4 }
+        },
+        "stats": {
+          "documentCount": 5000,
+          "indexSize": "25MB",
+          "lastUpdated": "2024-01-15T10:00:00Z"
+        }
+      },
+      "users": {
+        "name": "users",
+        "fields": [
+          { "name": "name", "type": "text", "searchable": true, "weight": 10 },
+          { "name": "email", "type": "keyword", "searchable": true, "weight": 8 },
+          { "name": "role", "type": "keyword", "filterable": true, "facetable": true },
+          { "name": "createdAt", "type": "date", "filterable": true, "sortable": true }
+        ],
+        "settings": {
+          "synonyms": [],
+          "stopwords": [],
+          "typoTolerance": { "enabled": false }
+        },
+        "stats": {
+          "documentCount": 15000,
+          "indexSize": "5MB",
+          "lastUpdated": "2024-01-15T09:00:00Z"
+        }
+      }
+    },
+    "recentQueries": [
+      { "query": "widget pro", "count": 250, "avgResults": 12 },
+      { "query": "cable", "count": 180, "avgResults": 45 },
+      { "query": "stand", "count": 120, "avgResults": 8 },
+      { "query": "accessories", "count": 95, "avgResults": 150 }
+    ]
+  },
+  "sessions": {
+    /* Active user sessions */
+    "active": [
+      {
+        "id": "sess_001",
+        "userId": "usr_001",
+        "device": {
+          "type": "desktop",
+          "os": "macOS",
+          "browser": "Chrome",
+          "version": "120.0"
+        },
+        "ip": "192.168.1.100",
+        "location": { "city": "San Francisco", "region": "CA", "country": "US", "timezone": "America/Los_Angeles" },
+        "createdAt": "2024-01-15T08:00:00Z",
+        "lastActivity": "2024-01-15T12:30:00Z",
+        "expiresAt": "2024-01-15T20:00:00Z"
+      },
+      {
+        "id": "sess_002",
+        "userId": "usr_001",
+        "device": {
+          "type": "mobile",
+          "os": "iOS",
+          "browser": "Safari",
+          "version": "17.0"
+        },
+        "ip": "10.0.0.50",
+        "location": { "city": "San Francisco", "region": "CA", "country": "US", "timezone": "America/Los_Angeles" },
+        "createdAt": "2024-01-14T18:00:00Z",
+        "lastActivity": "2024-01-15T07:00:00Z",
+        "expiresAt": "2024-01-15T18:00:00Z"
+      },
+      {
+        "id": "sess_003",
+        "userId": "usr_002",
+        "device": {
+          "type": "desktop",
+          "os": "Windows",
+          "browser": "Edge",
+          "version": "120.0"
+        },
+        "ip": "203.0.113.50",
+        "location": null, // VPN detected
+        "createdAt": "2024-01-15T10:00:00Z",
+        "lastActivity": "2024-01-15T11:45:00Z",
+        "expiresAt": "2024-01-15T22:00:00Z"
+      }
+    ],
+    "config": {
+      "maxPerUser": 5,
+      "timeout": 43200, // 12 hours
+      "extendOnActivity": true,
+      "requireReauth": ["settings.security", "billing"]
+    }
+  },
+  "files": {
+    /* File storage configuration and recent uploads */
+    "storage": {
+      "provider": "s3",
+      "bucket": "example-uploads",
+      "region": "us-east-1",
+      "cdnUrl": "https://cdn.example.com",
+      "limits": {
+        "maxFileSize": 104857600, // 100MB
+        "allowedTypes": ["image/*", "application/pdf", "text/*"],
+        "blockedExtensions": [".exe", ".bat", ".sh", ".cmd"]
+      }
+    },
+    "recent": [
+      {
+        "id": "file_001",
+        "name": "product-image-001.jpg",
+        "type": "image/jpeg",
+        "size": 2500000,
+        "path": "products/PROD-001/images/main.jpg",
+        "url": "https://cdn.example.com/products/PROD-001/images/main.jpg",
+        "uploadedBy": "usr_001",
+        "uploadedAt": "2024-01-15T09:30:00Z",
+        "metadata": {
+          "width": 2000,
+          "height": 1500,
+          "format": "jpeg",
+          "thumbnails": {
+            "sm": "https://cdn.example.com/products/PROD-001/images/main_sm.jpg",
+            "md": "https://cdn.example.com/products/PROD-001/images/main_md.jpg",
+            "lg": "https://cdn.example.com/products/PROD-001/images/main_lg.jpg"
+          }
+        },
+        "status": "processed"
+      },
+      {
+        "id": "file_002",
+        "name": "invoice-2024-001.pdf",
+        "type": "application/pdf",
+        "size": 150000,
+        "path": "invoices/2024/01/INV-2024-001.pdf",
+        "url": null, // Private file
+        "uploadedBy": "system",
+        "uploadedAt": "2024-01-15T08:00:00Z",
+        "metadata": {
+          "pages": 2,
+          "encrypted": false
+        },
+        "status": "processed"
+      },
+      {
+        "id": "file_003",
+        "name": "import-data.csv",
+        "type": "text/csv",
+        "size": 5000000,
+        "path": "imports/2024-01-15/data.csv",
+        "url": null,
+        "uploadedBy": "usr_001",
+        "uploadedAt": "2024-01-15T11:00:00Z",
+        "metadata": {
+          "rows": 50000,
+          "columns": 25,
+          "encoding": "utf-8"
+        },
+        "status": "processing"
+      }
+    ],
+    "usage": {
+      "total": "45.5GB",
+      "limit": "100GB",
+      "byType": {
+        "images": "30GB",
+        "documents": "10GB",
+        "other": "5.5GB"
+      }
+    }
+  },
+  "logs": {
+    /* Application log configuration */
+    "config": {
+      "level": "info",
+      "format": "json",
+      "outputs": [
+        { "type": "console", "level": "debug" },
+        { "type": "file", "level": "info", "path": "/var/log/app/app.log", "rotate": true },
+        { "type": "cloudwatch", "level": "warn", "group": "/app/production" }
+      ],
+      "redact": ["password", "token", "secret", "apiKey", "creditCard"]
+    },
+    "recent": [
+      {
+        "timestamp": "2024-01-15T12:30:00.123Z",
+        "level": "info",
+        "message": "Order created successfully",
+        "context": {
+          "orderId": "ord_005",
+          "userId": "usr_001",
+          "amount": 299.99,
+          "requestId": "req_abc123"
+        },
+        "source": "OrderService"
+      },
+      {
+        "timestamp": "2024-01-15T12:29:55.456Z",
+        "level": "warn",
+        "message": "Rate limit approaching threshold",
+        "context": {
+          "endpoint": "/api/search",
+          "current": 85,
+          "limit": 100,
+          "ip": "203.0.113.50"
+        },
+        "source": "RateLimiter"
+      },
+      {
+        "timestamp": "2024-01-15T12:29:30.789Z",
+        "level": "error",
+        "message": "Failed to process webhook",
+        "context": {
+          "provider": "stripe",
+          "eventType": "payment_intent.succeeded",
+          "error": "Duplicate event",
+          "eventId": "evt_xyz789"
+        },
+        "source": "WebhookHandler",
+        "stack": null
+      }
+    ]
+  },
+  "healthChecks": {
+    /* System health monitoring */
+    "endpoints": [
+      {
+        "name": "database",
+        "url": null, // Internal
+        "type": "tcp",
+        "host": "db.internal",
+        "port": 5432,
+        "interval": 30,
+        "timeout": 5,
+        "status": "healthy",
+        "lastCheck": "2024-01-15T12:30:00Z",
+        "responseTime": 2
+      },
+      {
+        "name": "redis",
+        "url": null,
+        "type": "tcp",
+        "host": "redis.internal",
+        "port": 6379,
+        "interval": 30,
+        "timeout": 5,
+        "status": "healthy",
+        "lastCheck": "2024-01-15T12:30:00Z",
+        "responseTime": 1
+      },
+      {
+        "name": "stripe",
+        "url": "https://api.stripe.com/v1/health",
+        "type": "http",
+        "host": null,
+        "port": null,
+        "interval": 60,
+        "timeout": 10,
+        "status": "healthy",
+        "lastCheck": "2024-01-15T12:29:00Z",
+        "responseTime": 150
+      },
+      {
+        "name": "sendgrid",
+        "url": "https://api.sendgrid.com/v3/status",
+        "type": "http",
+        "host": null,
+        "port": null,
+        "interval": 60,
+        "timeout": 10,
+        "status": "degraded",
+        "lastCheck": "2024-01-15T12:29:00Z",
+        "responseTime": 2500,
+        "error": "High latency detected"
+      }
+    ],
+    "overall": {
+      "status": "degraded",
+      "healthy": 3,
+      "degraded": 1,
+      "unhealthy": 0,
+      "lastUpdated": "2024-01-15T12:30:00Z"
+    }
+  },
+  "documentation": {
+    /* API documentation metadata */
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Example API",
+      "description": "REST API for the Example platform",
+      "version": "2.0.0",
+      "contact": {
+        "name": "API Support",
+        "email": "api@example.com",
+        "url": "https://example.com/support"
+      },
+      "license": {
+        "name": "Proprietary",
+        "url": null
+      }
+    },
+    "servers": [
+      { "url": "https://api.example.com", "description": "Production" },
+      { "url": "https://staging-api.example.com", "description": "Staging" },
+      { "url": "http://localhost:3000", "description": "Development" }
+    ],
+    "tags": [
+      { "name": "auth", "description": "Authentication endpoints" },
+      { "name": "users", "description": "User management" },
+      { "name": "products", "description": "Product catalog" },
+      { "name": "orders", "description": "Order processing" },
+      { "name": "webhooks", "description": "Webhook handlers" }
+    ],
+    "externalDocs": {
+      "description": "Full documentation",
+      "url": "https://docs.example.com"
+    },
+    "stats": {
+      "endpoints": 45,
+      "schemas": 120,
+      "lastGenerated": "2024-01-15T00:00:00Z"
+    }
+  }
+}

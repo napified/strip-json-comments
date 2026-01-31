@@ -34,7 +34,7 @@ export interface Options {
  * # NAPI Constraint
  *
  * The function signature uses String instead of &str because NAPI-RS removed
- * &str FromNapiValue in v3.0.0-alpha.16. This is required for JS interop.
+ * &str `FromNapiValue` in v3.0.0-alpha.16. This is required for JS interop.
  *
  * # Safety
  *

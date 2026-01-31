@@ -268,7 +268,7 @@ impl JsonProcessor {
 /// # NAPI Constraint
 ///
 /// The function signature uses String instead of &str because NAPI-RS removed
-/// &str FromNapiValue in v3.0.0-alpha.16. This is required for JS interop.
+/// &str `FromNapiValue` in v3.0.0-alpha.16. This is required for JS interop.
 ///
 /// # Safety
 ///
@@ -276,6 +276,7 @@ impl JsonProcessor {
 /// - Input is guaranteed valid UTF-8 (comes from JS String)
 /// - We only modify ASCII bytes (comments, whitespace, commas)
 /// - All UTF-8 multi-byte sequences are preserved unchanged
+#[must_use]
 #[allow(clippy::needless_pass_by_value)] // Required by NAPI-RS - cannot use &str
 #[napi]
 pub fn strip_json_comments(json_string: String, options: Option<Options>) -> String {

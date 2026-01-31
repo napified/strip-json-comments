@@ -56,6 +56,8 @@
     "build:debug": "napi build --platform --js index.cjs && napi build --platform --esm --js index.mjs",
     "test": "ava",
     "lint": "oxlint .",
+    "lint:fix": "oxlint --fix",
+    "verify": "cargo fmt --check && cargo clippy && yarn lint && yarn build && yarn test",
     "bench": "node --import @oxc-node/core/register benchmark/bench.ts"
   },
   "publishConfig": {

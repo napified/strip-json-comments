@@ -57,7 +57,7 @@
     "test": "ava",
     "lint": "oxlint .",
     "lint:fix": "oxlint --fix",
-    "verify": "cargo fmt --check && cargo clippy && yarn lint && yarn build && yarn test",
+    "verify": "cargo fmt --check && cargo clippy && cargo test && yarn lint && yarn build && yarn test",
     "bench": "node --import @oxc-node/core/register benchmark/bench.ts"
   },
   "publishConfig": {
